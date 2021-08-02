@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 #
-# action-user-count: Reports count of repositories using a GitHub Action
-# as a Shields.io endpoint
+# action-user-count: Generates Shields endpoint with number of users of a GitHub Action
 # 
 # Copyright (c) 2021 Vincent A Cicirello
 # https://www.cicirello.org/
