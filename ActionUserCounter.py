@@ -161,7 +161,7 @@ def writeToFiles(endpointMap, failOnError) :
         filename = actionName + ".json"
         try :
             with open(filename, "w") as jsonOut :
-                json.dump(endpointdata, jsonOut)
+                json.dump(endpointdata, jsonOut, sort_keys=True)
                 allFilenames.append(filename)
         except:
             print("Error: Failed while writing:", filename)
