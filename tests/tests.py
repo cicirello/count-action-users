@@ -55,103 +55,103 @@ class TestSomething(unittest.TestCase) :
 
     def test_formatCount(self) :
         cases = [
-            (0, "0 repos"),
-            (1, "1 repo"),
-            (9, "9 repos"),
-            (10, "10 repos"),
-            (99, "99 repos"),
-            (100, "100 repos"),
-            (999, "999 repos"),
-            (1000, "1000 repos"),
-            (9999, "9999 repos"),
-            (10000, "10.0K repos"),
-            (10099, "10.0K repos"),
-            (10100, "10.1K repos"),
-            (99900, "99.9K repos"),
-            (99999, "99.9K repos"),
-            (100000, "100.0K repos"),
-            (100099, "100.0K repos"),
-            (100100, "100.1K repos"),
-            (999900, "999.9K repos"),
-            (999999, "999.9K repos"),
-            (1000000, "1.00M repos"),
-            (1009999, "1.00M repos"),
-            (1010000, "1.01M repos"),
-            (1019999, "1.01M repos"),
-            (1020000, "1.02M repos"),
-            (1099999, "1.09M repos"),
-            (1100000, "1.10M repos"),
-            (1109999, "1.10M repos"),
-            (9999999, "9.99M repos"),
-            (10000000, "10.00M repos")
+            (0, "0"),
+            (1, "1"),
+            (9, "9"),
+            (10, "10"),
+            (99, "99"),
+            (100, "100"),
+            (999, "999"),
+            (1000, "1000"),
+            (9999, "9999"),
+            (10000, "10.0K"),
+            (10099, "10.0K"),
+            (10100, "10.1K"),
+            (99900, "99.9K"),
+            (99999, "99.9K"),
+            (100000, "100.0K"),
+            (100099, "100.0K"),
+            (100100, "100.1K"),
+            (999900, "999.9K"),
+            (999999, "999.9K"),
+            (1000000, "1.00M"),
+            (1009999, "1.00M"),
+            (1010000, "1.01M"),
+            (1019999, "1.01M"),
+            (1020000, "1.02M"),
+            (1099999, "1.09M"),
+            (1100000, "1.10M"),
+            (1109999, "1.10M"),
+            (9999999, "9.99M"),
+            (10000000, "10.00M")
             ]
         for caseInput, expected in cases :
             self.assertEqual(expected, action.formatCount(caseInput))
 
     def test_toDictWithShieldsKeys(self) :
         cases = [
-            ("100 repos", "green", None, None),
-            ("100 repos", "green", "actions", None),
-            ("100 repos", "green", "github", None),
-            ("100 repos", "green", None, "flat"),
-            ("100 repos", "green", "actions", "flat"),
-            ("100 repos", "green", "github", "flat")
+            ("100", "green", None, None),
+            ("100", "green", "actions", None),
+            ("100", "green", "github", None),
+            ("100", "green", None, "flat"),
+            ("100", "green", "actions", "flat"),
+            ("100", "green", "github", "flat")
             ]
         expected = [
-            {"schemaVersion" : 1, "label" : "used by", "message" : "100 repos", "color" : "green"},
-            {"schemaVersion" : 1, "label" : "used by", "message" : "100 repos", "color" : "green", "namedLogo" : "actions"},
-            {"schemaVersion" : 1, "label" : "used by", "message" : "100 repos", "color" : "green", "namedLogo" : "github"},
-            {"schemaVersion" : 1, "label" : "used by", "message" : "100 repos", "color" : "green", "style" : "flat"},
-            {"schemaVersion" : 1, "label" : "used by", "message" : "100 repos", "color" : "green", "namedLogo" : "actions", "style" : "flat"},
-            {"schemaVersion" : 1, "label" : "used by", "message" : "100 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"}
+            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green"},
+            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "actions"},
+            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "github"},
+            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "style" : "flat"},
+            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "actions", "style" : "flat"},
+            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "github", "style" : "flat"}
             ]
         for i, (count, color, logo, style) in enumerate(cases) :
             self.assertEqual(expected[i], action.toDictWithShieldsKeys(count, color, logo, style))
 
     def test_toJsonEndpoints(self) :
         case = {
-            "action-1" : "100 repos",
-            "action-2" : "120 repos",
-            "action-3" : "303 repos",
-            "action-4" : "104 repos",
-            "action-5" : "155 repos",
-            "action-6" : "600 repos"
+            "action-1" : "100",
+            "action-2" : "120",
+            "action-3" : "303",
+            "action-4" : "104",
+            "action-5" : "155",
+            "action-6" : "600"
             }
         expected1 = {
-            "action-1" : {"schemaVersion" : 1, "label" : "used by", "message" : "100 repos", "color" : "green"},
-            "action-2" : {"schemaVersion" : 1, "label" : "used by", "message" : "120 repos", "color" : "green"},
-            "action-3" : {"schemaVersion" : 1, "label" : "used by", "message" : "303 repos", "color" : "green"},
-            "action-4" : {"schemaVersion" : 1, "label" : "used by", "message" : "104 repos", "color" : "green"},
-            "action-5" : {"schemaVersion" : 1, "label" : "used by", "message" : "155 repos", "color" : "green"},
-            "action-6" : {"schemaVersion" : 1, "label" : "used by", "message" : "600 repos", "color" : "green"}
+            "action-1" : {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green"},
+            "action-2" : {"schemaVersion" : 1, "label" : "used by", "message" : "120", "color" : "green"},
+            "action-3" : {"schemaVersion" : 1, "label" : "used by", "message" : "303", "color" : "green"},
+            "action-4" : {"schemaVersion" : 1, "label" : "used by", "message" : "104", "color" : "green"},
+            "action-5" : {"schemaVersion" : 1, "label" : "used by", "message" : "155", "color" : "green"},
+            "action-6" : {"schemaVersion" : 1, "label" : "used by", "message" : "600", "color" : "green"}
             }
         expected2 = {
-            "action-1" : {"schemaVersion" : 1, "label" : "used by", "message" : "100 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"},
-            "action-2" : {"schemaVersion" : 1, "label" : "used by", "message" : "120 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"},
-            "action-3" : {"schemaVersion" : 1, "label" : "used by", "message" : "303 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"},
-            "action-4" : {"schemaVersion" : 1, "label" : "used by", "message" : "104 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"},
-            "action-5" : {"schemaVersion" : 1, "label" : "used by", "message" : "155 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"},
-            "action-6" : {"schemaVersion" : 1, "label" : "used by", "message" : "600 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"}
+            "action-1" : {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "github", "style" : "flat"},
+            "action-2" : {"schemaVersion" : 1, "label" : "used by", "message" : "120", "color" : "green", "namedLogo" : "github", "style" : "flat"},
+            "action-3" : {"schemaVersion" : 1, "label" : "used by", "message" : "303", "color" : "green", "namedLogo" : "github", "style" : "flat"},
+            "action-4" : {"schemaVersion" : 1, "label" : "used by", "message" : "104", "color" : "green", "namedLogo" : "github", "style" : "flat"},
+            "action-5" : {"schemaVersion" : 1, "label" : "used by", "message" : "155", "color" : "green", "namedLogo" : "github", "style" : "flat"},
+            "action-6" : {"schemaVersion" : 1, "label" : "used by", "message" : "600", "color" : "green", "namedLogo" : "github", "style" : "flat"}
             }
         self.assertEqual(expected1, action.toJsonEndpoints(case, "green", None, None))
         self.assertEqual(expected2, action.toJsonEndpoints(case, "green", "github", "flat"))
 
     def test_writeToFiles(self) :
         case1 = {
-            "action-1" : {"schemaVersion" : 1, "label" : "used by", "message" : "100 repos", "color" : "green"},
-            "action-2" : {"schemaVersion" : 1, "label" : "used by", "message" : "120 repos", "color" : "green"},
-            "action-3" : {"schemaVersion" : 1, "label" : "used by", "message" : "303 repos", "color" : "green"},
-            "action-4" : {"schemaVersion" : 1, "label" : "used by", "message" : "104 repos", "color" : "green"},
-            "action-5" : {"schemaVersion" : 1, "label" : "used by", "message" : "155 repos", "color" : "green"},
-            "action-6" : {"schemaVersion" : 1, "label" : "used by", "message" : "600 repos", "color" : "green"}
+            "action-1" : {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green"},
+            "action-2" : {"schemaVersion" : 1, "label" : "used by", "message" : "120", "color" : "green"},
+            "action-3" : {"schemaVersion" : 1, "label" : "used by", "message" : "303", "color" : "green"},
+            "action-4" : {"schemaVersion" : 1, "label" : "used by", "message" : "104", "color" : "green"},
+            "action-5" : {"schemaVersion" : 1, "label" : "used by", "message" : "155", "color" : "green"},
+            "action-6" : {"schemaVersion" : 1, "label" : "used by", "message" : "600", "color" : "green"}
             }
         case2 = {
-            "action-1" : {"schemaVersion" : 1, "label" : "used by", "message" : "100 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"},
-            "action-2" : {"schemaVersion" : 1, "label" : "used by", "message" : "120 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"},
-            "action-3" : {"schemaVersion" : 1, "label" : "used by", "message" : "303 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"},
-            "action-4" : {"schemaVersion" : 1, "label" : "used by", "message" : "104 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"},
-            "action-5" : {"schemaVersion" : 1, "label" : "used by", "message" : "155 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"},
-            "action-6" : {"schemaVersion" : 1, "label" : "used by", "message" : "600 repos", "color" : "green", "namedLogo" : "github", "style" : "flat"}
+            "action-1" : {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "github", "style" : "flat"},
+            "action-2" : {"schemaVersion" : 1, "label" : "used by", "message" : "120", "color" : "green", "namedLogo" : "github", "style" : "flat"},
+            "action-3" : {"schemaVersion" : 1, "label" : "used by", "message" : "303", "color" : "green", "namedLogo" : "github", "style" : "flat"},
+            "action-4" : {"schemaVersion" : 1, "label" : "used by", "message" : "104", "color" : "green", "namedLogo" : "github", "style" : "flat"},
+            "action-5" : {"schemaVersion" : 1, "label" : "used by", "message" : "155", "color" : "green", "namedLogo" : "github", "style" : "flat"},
+            "action-6" : {"schemaVersion" : 1, "label" : "used by", "message" : "600", "color" : "green", "namedLogo" : "github", "style" : "flat"}
             }
         os.chdir("tests")
         action.writeToFiles(copy.deepcopy(case1), False)

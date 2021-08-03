@@ -105,13 +105,13 @@ def formatCount(count) :
     count - The count of number of repositories using the action as an integer,
     """
     if count == 1 :
-        return "{0} repo".format(count)
+        return "{0}".format(count)
     elif count < 10000 :
-        return "{0} repos".format(count)
+        return "{0}".format(count)
     elif count < 1000000 :
-        return "{0:.1f}K repos".format(count // 100 * 100 / 1000)
+        return "{0:.1f}K".format(count // 100 * 100 / 1000)
     else :
-        return "{0:.2f}M repos".format(count // 10000 * 10000 / 1000000)
+        return "{0:.2f}M".format(count // 10000 * 10000 / 1000000)
 
 def toJsonEndpoints(countMap, color, logoName, style) :
     """Creates the Python dictionaries that will be written to files as JSON endpoints.
