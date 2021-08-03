@@ -162,7 +162,7 @@ def writeToFiles(endpointMap, failOnError) :
                 allFilenames.append(filename)
         except:
             print("Error: Failed while writing:", filename)
-            exitCode = 1
+            exitCode = 2
             print("::set-output name=exit-code::" + str(exitCode))
             exit(exitCode if failOnError else 0)
     return allFilenames
@@ -198,7 +198,7 @@ def commitAndPush(allFilenames, name, login, failOnError) :
             r = executeCommand(["git", "push"])
             if r[1] != 0 :
                 print("Error: push failed.")
-                exitCode = 1
+                exitCode = 3
                 print("::set-output name=exit-code::" + str(exitCode))
                 exit(exitCode if failOnError else 0)
 
