@@ -1,0 +1,53 @@
+name: build
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: '3.8'
+
+    - name: Run Python unit tests
+      run: python3 -u -m unittest tests/tests.py
+
+    - name: Verify that the Docker image for the action builds
+      run: docker build . --file Dockerfile
+
+    - name: Integration test
+      id: integration
+      uses: ./
+      with:
+        action-list: >
+          cicirello/jacoco-badge-generator
+          actions/setup-python
+          aFakeActionForTestingThatCannotPossiblyActuallyExistShouldHaveCountOfZero
+        target-directory: tests/endpoints
+        commit-and-push: false
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Output the outputs of the integration test of the action
+      run: |
+        echo "exit-code = ${{ steps.integration.outputs.exit-code }}"
+
+    - name: Verify integration test results
+      run: python3 -u -m unittest tests/integration.py
+
+    - name: Upload generated JSON endpoints as workflow artifacts for inspection if necessary
+      uses: actions/upload-artifact@v2
+      with:
+        name: endpoints
+        path: tests/endpoints/
