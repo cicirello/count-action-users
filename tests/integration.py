@@ -46,8 +46,11 @@ class TestIntegration(unittest.TestCase) :
             self.assertEqual(1, d["schemaVersion"])
             self.assertEqual("used by", d["label"])
             messageParts = d["message"].split()
-            try: 
-                count = int(messageParts[0])
+            try:
+                if messageParts[0][-1]=="K" or messageParts[0][-1]=="M" :
+                    count = float(messageParts[0][:-1])
+                else :
+                    count = int(messageParts[0])
                 if zeroCount :
                     # The search might return this workflow, so might be 1.
                     self.assertTrue(count <= 1)

@@ -33,7 +33,6 @@ import os.path
 import pathlib
 import subprocess
 
-
 queryTemplate = """search/code?q={0}+path%3A.github%2Fworkflows+language%3AYAML"""
 
 def splitActionOwnerName(action) :
