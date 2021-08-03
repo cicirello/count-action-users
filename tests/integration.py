@@ -57,3 +57,4 @@ class TestIntegration(unittest.TestCase) :
             self.assertEqual("#4c1", d["color"])
             self.assertEqual("actions", d["namedLogo"])
             self.assertFalse("style" in d)
+
