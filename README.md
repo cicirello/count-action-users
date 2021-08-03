@@ -35,15 +35,41 @@ _The developers of the `count-action-users` GitHub Action are not affiliated
 with the developers of Shields, although like most of GitHub we use their badges
 in most of our repositories._
 
-__Why not instead submit a pull request to Shields to add direct support for an actions
-users count badge to their awesome project?__ The GitHub Code Search API, which we utilize for
-this action, has a rate limit of 30 queries per minute for an authenticated user. By running
-this as an action, the necessary queries benefit from the GITHUB_TOKEN of the user of this 
-action, and in theory the rate limit should never come into effect unless you attempt to run
+__Why not instead submit a pull request to Shields to add direct support to their 
+awesome project for an actions users count badge?__ The GitHub Code Search API, which 
+we utilize for this action, has a rate limit of 30 queries per minute for an 
+authenticated user. By running this as an action, the necessary queries benefit 
+from the GITHUB_TOKEN of the user of this action, and in theory the rate limit should 
+never come into effect unless you attempt to run
 it to generate endpoints for more than 30 actions within a single workflow run, or are 
 otherwise querying the code search API at the same time with another tool. I imagine the rate
-limit would be significantly more challenging for a solution directly integrated with Shields.
- 
+limit would be significantly more challenging for a solution directly integrated with 
+Shields.
+
+__How does `count-action-users` work?__ The `count-action-users` action queries GitHub's
+Code Search API. The search is restricted to the contents of files in the `.github/workflows`
+directory (since active workflows must be in that directory to run) and restricted to 
+the YAML language (the language for workflows). The search terms then include
+the owner of the action and the name of the action. It is possible that some false positives
+may be included in the count. For example, although GitHub requires actions in the marketplace to
+have unique names, if an action has a simple enough name, that name may be found within that
+of another action with a longer name. The inclusion of the owner name in the search should
+minimize false positives. See the documentation of 
+GitHub's [code search](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-code)
+for details of what code is indexed by GitHub.
+
+## Table of Contents
+
+The remainder of the documentation is organized as follows:
+* [Example Workflows](#example-workflows): Several example workflows illustrating 
+  usage of the action.
+* [Inputs](#inputs): Documentation of the action's inputs.
+* [Outputs](#outputs): Documentation of the action's outputs.
+* [All Possible Action Inputs](#all-possible-action-inputs): A workflow showing all
+  of the action's inputs with their default values.
+* [Support the Project](#support-the-project): The various ways that you can support
+  the project.
+* [License](#license): License information (MIT License).
 
 ## Example Workflows
 
@@ -51,6 +77,9 @@ limit would be significantly more challenging for a solution directly integrated
 
 
 ## Inputs
+
+Most of the inputs have default values that should be sufficient in most
+cases. Only the `action-list` input is required.
 
 ### `action-list` (REQUIRED)
 
