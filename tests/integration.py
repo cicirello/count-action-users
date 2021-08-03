@@ -39,7 +39,7 @@ class TestIntegration(unittest.TestCase) :
         self._validate("tests/endpoints/setup-python.json")
         self._validate("tests/endpoints/aFakeActionForTestingThatCannotPossiblyActuallyExistShouldHaveCountOfZero.json", True)
         
-    def _validate(self, filename, zeroCount=False)
+    def _validate(self, filename, zeroCount=False) :
         self.assertTrue(os.path.exists(filename))
         with open(filename, "r") as f :
             d = json.load(f)

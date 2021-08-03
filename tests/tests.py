@@ -170,4 +170,3 @@ class TestSomething(unittest.TestCase) :
                 self.assertEqual(expected, json.load(f))
             os.remove(filename)
         os.chdir("..")
-
