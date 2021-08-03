@@ -103,12 +103,14 @@ def formatCount(count) :
     Keyword arguments:
     count - The count of number of repositories using the action as an integer,
     """
-    if count < 10000 :
+    if count == 1 :
+        return "{0} repo".format(count)
+    elif count < 10000 :
         return "{0} repos".format(count)
     elif count < 1000000 :
         return "{0:.1f}K repos".format(count // 100 * 100 / 1000)
     else :
-        return "{0:.2f}M repos".format(count // 100000 * 100000 / 1000000)
+        return "{0:.2f}M repos".format(count // 10000 * 10000 / 1000000)
 
 def toJsonEndpoints(countMap, color, logoName, style) :
     """Creates the Python dictionaries that will be written to files as JSON endpoints.
@@ -120,7 +122,7 @@ def toJsonEndpoints(countMap, color, logoName, style) :
     logoName - A named logo or None for no logo in badge.
     style - The name of the shields style to use.
     """
-    return { actionName : toDictWithShieldsKeys(count, color) for actionName, count in countMap.items() }
+    return { actionName : toDictWithShieldsKeys(count, color, logoName, style) for actionName, count in countMap.items() }
 
 def toDictWithShieldsKeys(count, color, logoName, style) :
     """Creates a Python dictionary with all of the necessary
