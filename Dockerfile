@@ -5,4 +5,4 @@
 FROM ghcr.io/cicirello/pyaction:4
 
 COPY ActionUserCounter.py /ActionUserCounter.py
-ENTRYPOINT ["ActionUserCounter.py"]
+ENTRYPOINT ["/ActionUserCounter.py"]
