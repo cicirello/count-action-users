@@ -1,4 +1,4 @@
-# action-user-count: Reports count of repositories using a GitHub Action as Shields.io endpoint
+# count-action-users: Generates Shields endpoint with number of users of a GitHub Action
 # 
 # Copyright (c) 2021 Vincent A Cicirello
 # https://www.cicirello.org/
@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 # 
-name: 'action-user-count'
+name: 'count-action-users'
 description: 'Generates Shields endpoint with number of users of a GitHub Action'
 branding:
   icon: 'book-open'
