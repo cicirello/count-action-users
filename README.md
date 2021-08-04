@@ -349,7 +349,8 @@ authenticated user. By running this as an action, the necessary queries benefit
 from the GITHUB_TOKEN of the user of this action, and in theory the rate limit should 
 never come into effect unless you attempt to run
 it to generate endpoints for more than 30 actions within a single workflow run, or are 
-otherwise querying the code search API at the same time with another tool. I imagine the rate
+otherwise querying the code search API at the same time with another tool, or run into
+a secondary rate limit. I imagine the rate
 limit would be significantly more challenging for a solution directly integrated with 
 Shields.
 
