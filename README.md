@@ -1,10 +1,10 @@
 # count-action-users
 
+[<img alt="count-action-users" src=".github/preview/count-action-users.png" width="640">](#count-action-users)
+
 Check out all of our GitHub Actions: https://actions.cicirello.org/
 
 ## About
-
-<!--- COMMENT FOR NOW
 
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/cicirello/count-action-users?label=Marketplace&logo=GitHub)](https://github.com/marketplace/actions/count-action-users)
 [![build](https://github.com/cicirello/count-action-users/actions/workflows/build.yml/badge.svg)](https://github.com/cicirello/count-action-users/actions/workflows/build.yml)
@@ -12,8 +12,6 @@ Check out all of our GitHub Actions: https://actions.cicirello.org/
 [![CodeQL](https://github.com/cicirello/count-action-users/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cicirello/count-action-users/actions/workflows/codeql-analysis.yml)
 [![License](https://img.shields.io/github/license/cicirello/count-action-users)](https://github.com/cicirello/count-action-users/blob/main/LICENSE)
 [![GitHub top language](https://img.shields.io/github/languages/top/cicirello/count-action-users)](https://github.com/cicirello/count-action-users)
-
--->
 
 The [cicirello/count-action-users](https://github.com/cicirello/count-action-users) GitHub Action 
 generates a [Shields endpoint](https://shields.io/endpoint) with the number of 
