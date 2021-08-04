@@ -53,10 +53,10 @@ the YAML language (the language for workflows). The search terms then include
 the owner of the action and the name of the action. It is possible that some false positives
 may be included in the count. For example, although GitHub requires actions in the marketplace to
 have unique names, if an action has a simple enough name, that name may be found within that
-of another action with a longer name. The inclusion of the owner name in the search should
+of another action with a longer name. Including the owner name in the search should
 minimize false positives. See the documentation of 
 GitHub's [code search](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-code)
-for details of what code is indexed by GitHub.
+for details of what code is (and is not) indexed by GitHub.
 
 ## Table of Contents
 
@@ -72,6 +72,45 @@ The remainder of the documentation is organized as follows:
 * [License](#license): License information (MIT License).
 
 ## Example Workflows
+
+### Example 1: Monitoring one action, storing endpoint at root of repository
+
+This first workflow runs on a schedule (daily at 4am), and it can also
+be run manually if need be (via the `workflow_dispatch` event). It uses all
+of the default action inputs. The default location for the generated endpoint
+is the root of the repository. In this example, there is a single action that
+we are monitoring: `owner/action-name`. The action names the endpoint file using
+the name of the action, so in this case, the name of the file it creates is:
+`action-name.json`. Please note that the `GITHUB_TOKEN` must be passed as an
+environment variable, as shown in the workflow, to authenticate to the GitHub API.
+
+```yml
+name: count-action-users
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+      
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: owner/action-name 
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+### Example 2: Monitoring multiple actions, serving via GitHub Pages from the docs directory
+
+### Example 3: Serving endpoints via GitHub Pages from the gh-pages branch
+
 
 ### Protected branches with required checks
 
