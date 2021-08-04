@@ -367,6 +367,12 @@ minimize false positives. See the documentation of
 GitHub's [code search](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-code)
 for details of what code is (and is not) indexed by GitHub.
 
+__Can't we further minimize false positives with "owner/action-name" as a single search 
+term?__ Unfortunately, GitHub's code search drops various special characters from searches, 
+including `/`, replacing them with spaces. Due to this, combining owner and the 
+action's name into a single search 
+term in this way is equivalent to the search we are currently doing. 
+
 
 ## Inputs
 
