@@ -261,7 +261,8 @@ checkout the `gh-pages` branch of the repository. The
 checked out branch.
 
 As in the previous example, the JSON endpoint will be at 
-the root of the project site. Thus, you can then use the 
+the root of the project site 
+(`https://YOURUSERID.github.io/REPOSITORY/action-name.json`). Thus, you can then use the 
 following Markdown to insert the badge in your README.
 Just be sure to replace `YOURUSERID` and `REPOSITORY` as appropriate, and also be sure
 to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
