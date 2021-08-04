@@ -99,10 +99,10 @@ class TestSomething(unittest.TestCase) :
             ]
         expected = [
             {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green"},
-            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "githubactions"},
+            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "githubactions", "logoColor" : "#fff"},
             {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "github"},
             {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "style" : "flat"},
-            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "githubactions", "style" : "flat"},
+            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "githubactions", "style" : "flat", "logoColor" : "#fff"},
             {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "github", "style" : "flat"}
             ]
         for i, (count, color, logo, style) in enumerate(cases) :
