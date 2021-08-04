@@ -280,6 +280,66 @@ the following Markdown for inserting the badge into the README:
 
 ### Protected branches with required checks
 
+The default permissions of the `GITHUB_TOKEN` are sufficient for pushing 
+to a protected branch, provided that the branch protection hasn't been 
+configured with required reviews nor with required checks. If the repository where
+you are running the `count-action-users` action does have a branch protection 
+rule with required reviews or required checks, there are a couple solutions.
+
+__Not Recommended__: First, you could create a personal access token (PAT) 
+with necessary permissions, save it as a repository secret, and use the PAT 
+with during the actions/checkout step 
+(see [actions/checkout](https://github.com/actions/checkout)'s documentation). 
+However, we do not recommend doing so. If anyone else has write access to the 
+repository, then they can potentially create additional workflows using that PAT
+to bypass the required checks and/or reviews; and you obviously had a reason for
+putting those requirements in place.
+
+__Recommended__: Although your default branch likely has branch protection rules
+that include required checks and/or reviews, you do not need to store your
+user count endpoint in the default branch.
+See [Example 3](#example-3-serving-via-github-pages-from-the-gh-pages-branch)
+earlier, which uses the `gh-pages` branch along with GitHub Pages to serve the
+endpoint to Shields. You can configure branch protection on the `gh-pages`
+branch, and as long as you don't add any required checks or reviews for that
+specific branch, the action will be able to push to it without the need for a PAT.
+
+### Specific version vs major release
+
+All of the above examples used the major release tag
+for the `count-action-users` step 
+(i.e., `uses: cicirello/count-action-users@v1`):
+
+```yml
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: owner/action-name 
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+The advantage to this is that you will automatically
+get all non-breaking changes and bug fixes without the
+need to alter your workflow. If you prefer to 
+use a specific release, just use the SemVer of the
+release that you wish to use, such as with the following:
+
+```yml
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1.0.0
+      with:
+        action-list: owner/action-name 
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+If you do use a specific release, then we recommend
+configuring [GitHub's Dependabot](https://github.blog/2020-06-01-keep-all-your-packages-up-to-date-with-dependabot/)
+in your repository.  Dependabot can be used to monitor dependencies,
+including GitHub Actions, and generates automated pull requests to update
+versions. The PRs it generates includes the text of release notes and ChangeLogs
+giving you the opportunity to decide whether to upgrade the version.
 
 ## FAQ
 
