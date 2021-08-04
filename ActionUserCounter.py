@@ -143,6 +143,11 @@ def toDictWithShieldsKeys(count, color, logoName, style) :
         }
     if logoName != None :
         d["namedLogo"] = logoName
+        # The GitHub Actions logo in its default color
+        # is difficult to see on top of the grey left side,
+        # so if that is the logo set its color to white.
+        if logoName == "githubactions" :
+            d["logoColor"] = "#fff"
     if style != None :
         d["style"] = style
     return d
