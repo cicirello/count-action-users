@@ -91,18 +91,18 @@ class TestSomething(unittest.TestCase) :
     def test_toDictWithShieldsKeys(self) :
         cases = [
             ("100", "green", None, None),
-            ("100", "green", "actions", None),
+            ("100", "green", "githubactions", None),
             ("100", "green", "github", None),
             ("100", "green", None, "flat"),
-            ("100", "green", "actions", "flat"),
+            ("100", "green", "githubactions", "flat"),
             ("100", "green", "github", "flat")
             ]
         expected = [
             {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green"},
-            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "actions"},
+            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "githubactions"},
             {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "github"},
             {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "style" : "flat"},
-            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "actions", "style" : "flat"},
+            {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "githubactions", "style" : "flat"},
             {"schemaVersion" : 1, "label" : "used by", "message" : "100", "color" : "green", "namedLogo" : "github", "style" : "flat"}
             ]
         for i, (count, color, logo, style) in enumerate(cases) :

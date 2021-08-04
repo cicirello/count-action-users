@@ -463,7 +463,7 @@ This input controls whether or not a logo is inserted in the badge. The default 
 ### `named-logo`
 
 This controls which logo is inserted if a logo is included in the badge. The default is
-`actions`, which is the GitHub Actions logo. Another to consider 
+`githubactions`, which is the GitHub Actions logo. Another to consider 
 is `github`, which is the GitHub logo. You can pass the name of any logo supported
 by [Shields](https://github.com/badges/shields), which also includes 
 [simple-icons](https://github.com/simple-icons/simple-icons). 
@@ -554,7 +554,7 @@ jobs:
         target-directory: '' # Default is root of repository.
         color: '#4c1' # A bright shade of green
         include-logo: true
-        named-logo: actions # Defaults to the GitHub Actions logo
+        named-logo: githubactions # Defaults to the GitHub Actions logo
         style: flat # Which is Shields's default as well
         fail-on-error: true
         commit-and-push: true

@@ -55,7 +55,7 @@ inputs:
   named-logo:
     description: 'The name of a logo supported by shields or simple-icons'
     required: false
-    default: actions # Defaults to the GitHub Actions logo
+    default: githubactions # Defaults to the GitHub Actions logo
   style:
     description: 'One of the styles supported by Shields.io.'
     required: false

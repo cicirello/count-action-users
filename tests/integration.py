@@ -58,6 +58,6 @@ class TestIntegration(unittest.TestCase) :
                 self.fail("count not an int")
             #self.assertTrue(messageParts[1].startswith("repo"))
             self.assertEqual("#4c1", d["color"])
-            self.assertEqual("actions", d["namedLogo"])
+            self.assertEqual("githubactions", d["namedLogo"])
             self.assertFalse("style" in d)
 
