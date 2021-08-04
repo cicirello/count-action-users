@@ -35,34 +35,12 @@ _The developers of the `count-action-users` GitHub Action are not affiliated
 with the developers of Shields, although like most of GitHub we use their badges
 in most of our repositories._
 
-__Why not instead submit a pull request to Shields to add direct support to their 
-awesome project for an actions users count badge?__ The GitHub Code Search API, which 
-we utilize for this action, has a rate limit of 30 queries per minute for an 
-authenticated user. By running this as an action, the necessary queries benefit 
-from the GITHUB_TOKEN of the user of this action, and in theory the rate limit should 
-never come into effect unless you attempt to run
-it to generate endpoints for more than 30 actions within a single workflow run, or are 
-otherwise querying the code search API at the same time with another tool. I imagine the rate
-limit would be significantly more challenging for a solution directly integrated with 
-Shields.
-
-__How does `count-action-users` work?__ The `count-action-users` action queries GitHub's
-Code Search API. The search is restricted to the contents of files in the `.github/workflows`
-directory (since active workflows must be in that directory to run) and restricted to 
-the YAML language (the language for workflows). The search terms then include
-the owner of the action and the name of the action. It is possible that some false positives
-may be included in the count. For example, although GitHub requires actions in the marketplace to
-have unique names, if an action has a simple enough name, that name may be found within that
-of another action with a longer name. Including the owner name in the search should
-minimize false positives. See the documentation of 
-GitHub's [code search](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-code)
-for details of what code is (and is not) indexed by GitHub.
-
 ## Table of Contents
 
 The remainder of the documentation is organized as follows:
 * [Example Workflows](#example-workflows): Several example workflows illustrating 
   usage of the action.
+* [FAQ](#faq): List of questions we anticipate you may have, or which have been asked.
 * [Inputs](#inputs): Documentation of the action's inputs.
 * [Outputs](#outputs): Documentation of the action's outputs.
 * [All Possible Action Inputs](#all-possible-action-inputs): A workflow showing all
@@ -73,7 +51,7 @@ The remainder of the documentation is organized as follows:
 
 ## Example Workflows
 
-### Example 1: Monitoring one action, storing endpoint at root of repository
+### Example 1: Storing endpoint at root of repository
 
 This first workflow runs on a schedule (daily at 4am), and it can also
 be run manually if need be (via the `workflow_dispatch` event). It uses all
@@ -107,12 +85,226 @@ jobs:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 ```
 
-### Example 2: Monitoring multiple actions, serving via GitHub Pages from the docs directory
+You can then pass the URL of the endpoint to Shields to generate and
+insert a badge into your README with the following Markdown. Just be sure to
+replace `OWNERUSERID`, `REPOSITORY`, and `BRANCH` as appropriate, and also be sure
+to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
 
-### Example 3: Serving endpoints via GitHub Pages from the gh-pages branch
+```markdown
+![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FOWNERUSERID%2FREPOSITORY%2FBRANCH%2Faction-name.json)
+```
 
+Note that in the above, you are relying on GitHub's `raw.githubusercontent.com`
+server for serving the endpoint to Shields. We do not actually recommend doing this
+as that server isn't really intended for that purpose, and may create a noticeable delay
+that will trickle down to Shields serving the badge. However, you might initially
+set it up this way to try out the action. 
+See [Example 2](#example-2-serving-via-github-pages-from-the-docs-directory) 
+and [Example 3](#example-3-serving-via-github-pages-from-the-gh-pages-branch) 
+for examples of our recommended approach, serving via GitHub Pages.
+
+If you maintain more than one GitHub Action and want to generate
+user count endpoints for all of them with a single application
+of this action, then you can pass a list of your GitHub actions
+as follows:
+
+```yml
+name: count-action-users
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+      
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: >
+          owner/action-one
+          owner/action-two
+          owner/action-three		  
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+The above example will generate the following JSON files:
+`action-one.json`, `action-two.json`, and `action-three.json`.
+Note that the `>` is one of the ways to specify a multiline string
+in YAML.
+
+### Example 2: Serving via GitHub Pages from the docs directory
+
+The previous example relies on GitHub's `raw.githubusercontent.com`
+server for serving the endpoint to Shields. This is less than ideal
+as that server is intended for those browsing GitHub to see the
+raw version of files, and isn't really intended for general serving
+of files.
+
+__GitHub Pages (our recommended approach)__: We instead recommend utilizing
+GitHub Pages. The benefit of this is that you will gain the advantage of the 
+CDN that backs GitHub Pages, thus significantly 
+enhancing the speed of serving the endpoint to Shields. 
+First note that you do not necessarily need to setup a full
+website for this purpose. You can literally use it to serve nothing but
+your user count JSON endpoint, if you don't want to otherwise set up a full project
+page. Follow GitHub's directions for enabling [GitHub Pages](https://pages.github.com/)
+on the repository in which you want to use the `count-action-users` action.
+
+To do this, go to the settings tab of that repository, and then select "Pages" in the
+left. In this example, we are assuming serving from the "docs" directory of your
+default branch, so make those selections as you enable "Pages" for your repository.
+Once you do, anything you store in the "docs" directory will be served
+from the URL: `https://YOURUSERID.github.io/REPOSITORY/`.
+
+So, now run the action using this workflow:
+
+```yml
+name: count-action-users
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+      
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        target-directory: docs
+        action-list: owner/action-name 
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+Note that the above workflow uses the 
+`target-directory` input to store the endpoint in the docs directory,
+which will be created by the action if it doesn't already exist.
+Assuming that you have configured GitHub Pages to serve from "docs",
+then your endpoint will be accessible from 
+`https://YOURUSERID.github.io/REPOSITORY/action-name.json`.
+
+You can then use the following Markdown to insert the badge in your README.
+Just be sure to replace `YOURUSERID` and `REPOSITORY` as appropriate, and also be sure
+to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
+
+```markdown
+![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Faction-name.json)
+```
+
+If you are also utilizing GitHub Pages for a project site, then you might want
+to store the endpoint in a subdirectory of "docs" to keep your site's files organized.
+For example, perhaps you want to store it in a directory "endpoints", then you can
+accomplish that with the following action input: `target-directory: docs/endpoints`.
+This would change the necessary Markdown for inserting the badge to:
+
+```markdown
+![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Fendpoints%2Faction-name.json)
+```
+
+### Example 3: Serving via GitHub Pages from the gh-pages branch
+
+GitHub Pages allows you to serve your site from either the "docs" directory
+(as in the above example), or from the root of any branch. Assuming you are
+setting this up in the repository of the action that you maintain, then the
+default branch is not a good choice for your project site. Instead, create 
+a `gh-pages` branch in your repository (you can then delete everything in the
+`gh-pages` branch, as it only needs to contain the source of your project site).
+Just like Example 2 above, you don't really need to have a project site, as your
+site can literally be just the endpoint you want to pass to Shields.
+
+Now, setup the following workflow in the default branch (e.g., "main") 
+of your repository. Note that even though this workflow will be pushing to the `gh-pages` branch,
+the workflow itself must be in the default branch, or else the schedule will not run.
+
+```yml
+name: count-action-users
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+      
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        ref: gh-pages
+
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: owner/action-name 
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+You'll notice above that the `count-action-users` step
+did not change. Instead, the `checkout` step changed to
+checkout the `gh-pages` branch of the repository. The
+`count-action-users` action commits and pushes to the
+checked out branch.
+
+As in the previous example, the JSON endpoint will be at 
+the root of the project site. Thus, you can then use the 
+following Markdown to insert the badge in your README.
+Just be sure to replace `YOURUSERID` and `REPOSITORY` as appropriate, and also be sure
+to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
+
+```markdown
+![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Faction-name.json)
+```
+
+If you'd rather have it in a subdirectory, you can set the appropriate action input,
+such as with: `target-directory: endpoints`. Doing so would then require
+the following Markdown for inserting the badge into the README:  
+
+```markdown
+![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Fendpoints%2Faction-name.json)
+```
 
 ### Protected branches with required checks
+
+
+## FAQ
+
+__Why not instead submit a pull request to Shields to add direct support to their 
+awesome project for an actions users count badge?__ The GitHub Code Search API, which 
+we utilize for this action, has a rate limit of 30 queries per minute for an 
+authenticated user. By running this as an action, the necessary queries benefit 
+from the GITHUB_TOKEN of the user of this action, and in theory the rate limit should 
+never come into effect unless you attempt to run
+it to generate endpoints for more than 30 actions within a single workflow run, or are 
+otherwise querying the code search API at the same time with another tool. I imagine the rate
+limit would be significantly more challenging for a solution directly integrated with 
+Shields.
+
+__How does `count-action-users` work?__ The `count-action-users` action queries GitHub's
+Code Search API. The search is restricted to the contents of files in the `.github/workflows`
+directory (since active workflows must be in that directory to run) and restricted to 
+the YAML language (the language for workflows). The search terms then include
+the owner of the action and the name of the action. It is possible that some false positives
+may be included in the count. For example, although GitHub requires actions in the marketplace to
+have unique names, if an action has a simple enough name, that name may be found within that
+of another action with a longer name. Including the owner name in the search should
+minimize false positives. See the documentation of 
+GitHub's [code search](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-code)
+for details of what code is (and is not) indexed by GitHub.
 
 
 ## Inputs
