@@ -33,6 +33,14 @@ _The developers of the `count-action-users` GitHub Action are not affiliated
 with the developers of Shields, although like most of GitHub we use their badges
 in most of our repositories._
 
+__Here are a Few Example Badges__
+* Example with moderate number of users: 
+  ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcicirello%2Fcount-action-users%2Fsamples%2Fjacoco-badge-generator.json)
+* Example with very large number of users (`actions/setup-python`): 
+  ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcicirello%2Fcount-action-users%2Fsamples%2Fsetup-python.json)
+* Example with huge number of users (`actions/checkout`): 
+  ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcicirello%2Fcount-action-users%2Fsamples%2Fcheckout.json)
+
 ## Table of Contents
 
 The remainder of the documentation is organized as follows:
