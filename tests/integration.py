@@ -36,7 +36,7 @@ class TestIntegration(unittest.TestCase) :
         self.assertTrue(os.path.exists("tests/endpoints"))
         # verify that the json files were created
         self._validate("tests/endpoints/jacoco-badge-generator.json")
-        self._validate("tests/endpoints/setup-python.json")
+        #self._validate("tests/endpoints/setup-python.json")
         self._validate("tests/endpoints/aFakeActionForTestingThatCannotPossiblyActuallyExistShouldHaveCountOfZero.json", True)
         
     def _validate(self, filename, zeroCount=False) :
