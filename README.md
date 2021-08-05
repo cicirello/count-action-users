@@ -109,6 +109,10 @@ See [Example 2](#example-2-serving-via-github-pages-from-the-docs-directory)
 and [Example 3](#example-3-serving-via-github-pages-from-the-gh-pages-branch) 
 for examples of our recommended approach, serving via GitHub Pages.
 
+See [later in this document](#how-to-link-the-badge-to-search-results) for an 
+example of the markdown needed to link the badge to a GitHub search results page
+with the workflows represented by the user count. 
+
 If you maintain more than one GitHub Action and want to generate
 user count endpoints for all of them with a single application
 of this action, then you can pass a list of your GitHub actions
@@ -220,6 +224,10 @@ This would change the necessary Markdown for inserting the badge to:
 ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Fendpoints%2Faction-name.json)
 ```
 
+See [later in this document](#how-to-link-the-badge-to-search-results) for an 
+example of the markdown needed to link the badge to a GitHub search results page
+with the workflows represented by the user count.
+
 ### Example 3: Serving via GitHub Pages from the gh-pages branch
 
 GitHub Pages allows you to serve your site from either the "docs" directory
@@ -285,6 +293,10 @@ the following Markdown for inserting the badge into the README:
 ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Fendpoints%2Faction-name.json)
 ```
 
+See [later in this document](#how-to-link-the-badge-to-search-results) for an 
+example of the markdown needed to link the badge to a GitHub search results page
+with the workflows represented by the user count.
+
 ### Protected branches with required checks
 
 The default permissions of the `GITHUB_TOKEN` are sufficient for pushing 
@@ -347,6 +359,21 @@ in your repository.  Dependabot can be used to monitor dependencies,
 including GitHub Actions, and generates automated pull requests to update
 versions. The PRs it generates includes the text of release notes and ChangeLogs
 giving you the opportunity to decide whether to upgrade the version.
+
+### How to Link the Badge to Search Results
+
+It is common practice to link status badges to something relevant
+(e.g., a build status badge to workflow runs). For a users count badge,
+you might consider linking it to a GitHub search results page. You can do that
+with the following Markdown. Replace "YOURUSERID" with the user id of the owner
+of the action, and replace "ACTIONNAME" with the name of the action. Also replace
+"RELEVANT_SHIELDS_URL" with the link that generates the badge from the endpoint
+(see the examples in the workflow examples above). Also be sure
+to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
+
+```markdown
+[![Count of Action Users](RELEVANT_SHIELDS_URL)](https://github.com/search?q=YOURUSERID+ACTIONNAME+path%3A.github%2Fworkflows+language%3AYAML&type=Code)
+```
 
 ## FAQ
 
