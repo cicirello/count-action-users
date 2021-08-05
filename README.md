@@ -353,14 +353,16 @@ giving you the opportunity to decide whether to upgrade the version.
 __Why not instead submit a pull request to Shields to add direct support to their 
 awesome project for an actions users count badge?__ The GitHub Code Search API, which 
 we utilize for this action, has a rate limit of 30 queries per minute for an 
-authenticated user. By running this as an action, the necessary queries benefit 
+authenticated user; and can also potentially interact with other secondary rate limits. 
+By running this as an action, the necessary queries benefit 
 from the GITHUB_TOKEN of the user of this action, and in theory the rate limit should 
 never come into effect unless you attempt to run
-it to generate endpoints for more than 30 actions within a single workflow run, or are 
-otherwise querying the code search API at the same time with another tool, or run into
-a secondary rate limit. I imagine the rate
+it to generate endpoints for many actions within a single workflow run, or are 
+otherwise querying the code search API (or other GitHub APIs) at the same time with 
+another tool, or run into a secondary rate limit. I imagine the rate
 limit would be significantly more challenging for a solution directly integrated with 
-Shields.
+Shields. We additionally have a built-in time delay in between queries for those using
+the action to monitor multiple GitHub actions.
 
 __How does `count-action-users` work?__ The `count-action-users` action queries GitHub's
 Code Search API. The search is restricted to the contents of files in the `.github/workflows`
@@ -517,6 +519,15 @@ that has required reviews or required checks:
 
 The author of the commit is set to the github-actions bot.
 
+### `query-delay`
+
+This input specifies a delay, in seconds, in between queries for 
+cases where multiple actions are being monitored. The purpose of this
+delay is to decrease chance of hitting API rate limits. The default is
+15 seconds. This input doesn't accept values less than 10. For example,
+if you attempt to pass 0 (or anything else less than 10), the minimum of
+10 will be used instead.
+
 ## Outputs
 
 The action has only the following action output variable.
@@ -565,6 +576,7 @@ jobs:
         style: flat # Which is Shields's default as well
         fail-on-error: true
         commit-and-push: true
+        query-delay: 15
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
