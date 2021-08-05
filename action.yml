@@ -60,6 +60,10 @@ inputs:
     description: 'One of the styles supported by Shields.io.'
     required: false
     default: flat # This is Shield's default style
+  query-delay:
+    description: 'Time delay in seconds between queries if monitoring multiple actions'
+    required: false
+    default: 15
 outputs:
   exit-code:
     description: '0 if successful or non-zero if unsuccessful'	
@@ -75,3 +79,4 @@ runs:
     - ${{ inputs.include-logo }}
     - ${{ inputs.named-logo }}
     - ${{ inputs.style }}
+    - ${{ inputs.query-delay }}

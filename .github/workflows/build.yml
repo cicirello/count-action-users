@@ -28,6 +28,7 @@ jobs:
 
     - name: Integration test
       id: integration
+      if: ${{ github.event_name == 'pull_request' }}
       uses: ./
       with:
         action-list: >
@@ -39,13 +40,16 @@ jobs:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
     - name: Output the outputs of the integration test of the action
+      if: ${{ github.event_name == 'pull_request' }}
       run: |
         echo "exit-code = ${{ steps.integration.outputs.exit-code }}"
 
     - name: Verify integration test results
+      if: ${{ github.event_name == 'pull_request' }}
       run: python3 -u -m unittest tests/integration.py
 
     - name: Upload generated JSON endpoints as workflow artifacts for inspection if necessary
+      if: ${{ github.event_name == 'pull_request' }}
       uses: actions/upload-artifact@v2
       with:
         name: endpoints

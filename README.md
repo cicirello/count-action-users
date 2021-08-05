@@ -14,8 +14,8 @@ Check out all of our GitHub Actions: https://actions.cicirello.org/
 [![GitHub top language](https://img.shields.io/github/languages/top/cicirello/count-action-users)](https://github.com/cicirello/count-action-users)
 
 The [cicirello/count-action-users](https://github.com/cicirello/count-action-users) GitHub Action 
-generates a [Shields endpoint](https://shields.io/endpoint) with the number of 
-users of a GitHub Action. It is thus a tool for
+generates a [Shields endpoint](https://shields.io/endpoint) with the count of the number of 
+workflows that use a GitHub Action. It is thus a tool for
 maintainers of GitHub Actions, and it can be used to insert a badge with a users count into the
 README for a GitHub Action. The key features include:
 * __Designed to Run on a Schedule__: The intended usage is to run the action on a 
@@ -108,6 +108,10 @@ set it up this way to try out the action.
 See [Example 2](#example-2-serving-via-github-pages-from-the-docs-directory) 
 and [Example 3](#example-3-serving-via-github-pages-from-the-gh-pages-branch) 
 for examples of our recommended approach, serving via GitHub Pages.
+
+See [later in this document](#how-to-link-the-badge-to-search-results) for an 
+example of the markdown needed to link the badge to a GitHub search results page
+with the workflows represented by the user count. 
 
 If you maintain more than one GitHub Action and want to generate
 user count endpoints for all of them with a single application
@@ -220,6 +224,10 @@ This would change the necessary Markdown for inserting the badge to:
 ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Fendpoints%2Faction-name.json)
 ```
 
+See [later in this document](#how-to-link-the-badge-to-search-results) for an 
+example of the markdown needed to link the badge to a GitHub search results page
+with the workflows represented by the user count.
+
 ### Example 3: Serving via GitHub Pages from the gh-pages branch
 
 GitHub Pages allows you to serve your site from either the "docs" directory
@@ -285,6 +293,10 @@ the following Markdown for inserting the badge into the README:
 ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Fendpoints%2Faction-name.json)
 ```
 
+See [later in this document](#how-to-link-the-badge-to-search-results) for an 
+example of the markdown needed to link the badge to a GitHub search results page
+with the workflows represented by the user count.
+
 ### Protected branches with required checks
 
 The default permissions of the `GITHUB_TOKEN` are sufficient for pushing 
@@ -334,7 +346,7 @@ release that you wish to use, such as with the following:
 
 ```yml
     - name: Generate user count JSON endpoint
-      uses: cicirello/count-action-users@v1.0.0
+      uses: cicirello/count-action-users@v1.0.1
       with:
         action-list: owner/action-name 
       env:
@@ -348,19 +360,36 @@ including GitHub Actions, and generates automated pull requests to update
 versions. The PRs it generates includes the text of release notes and ChangeLogs
 giving you the opportunity to decide whether to upgrade the version.
 
+### How to Link the Badge to Search Results
+
+It is common practice to link status badges to something relevant
+(e.g., a build status badge to workflow runs). For a users count badge,
+you might consider linking it to a GitHub search results page. You can do that
+with the following Markdown. Replace "YOURUSERID" with the user id of the owner
+of the action, and replace "ACTIONNAME" with the name of the action. Also replace
+"RELEVANT_SHIELDS_URL" with the link that generates the badge from the endpoint
+(see the examples in the workflow examples above). Also be sure
+to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
+
+```markdown
+[![Count of Action Users](RELEVANT_SHIELDS_URL)](https://github.com/search?q=YOURUSERID+ACTIONNAME+path%3A.github%2Fworkflows+language%3AYAML&type=Code)
+```
+
 ## FAQ
 
 __Why not instead submit a pull request to Shields to add direct support to their 
 awesome project for an actions users count badge?__ The GitHub Code Search API, which 
 we utilize for this action, has a rate limit of 30 queries per minute for an 
-authenticated user. By running this as an action, the necessary queries benefit 
+authenticated user; and can also potentially interact with other secondary rate limits. 
+By running this as an action, the necessary queries benefit 
 from the GITHUB_TOKEN of the user of this action, and in theory the rate limit should 
 never come into effect unless you attempt to run
-it to generate endpoints for more than 30 actions within a single workflow run, or are 
-otherwise querying the code search API at the same time with another tool, or run into
-a secondary rate limit. I imagine the rate
+it to generate endpoints for many actions within a single workflow run, or are 
+otherwise querying the code search API (or other GitHub APIs) at the same time with 
+another tool, or run into a secondary rate limit. I imagine the rate
 limit would be significantly more challenging for a solution directly integrated with 
-Shields.
+Shields. We additionally have a built-in time delay in between queries for those using
+the action to monitor multiple GitHub actions.
 
 __How does `count-action-users` work?__ The `count-action-users` action queries GitHub's
 Code Search API. The search is restricted to the contents of files in the `.github/workflows`
@@ -517,6 +546,15 @@ that has required reviews or required checks:
 
 The author of the commit is set to the github-actions bot.
 
+### `query-delay`
+
+This input specifies a delay, in seconds, in between queries for 
+cases where multiple actions are being monitored. The purpose of this
+delay is to decrease chance of hitting API rate limits. The default is
+15 seconds. This input doesn't accept values less than 10. For example,
+if you attempt to pass 0 (or anything else less than 10), the minimum of
+10 will be used instead.
+
 ## Outputs
 
 The action has only the following action output variable.
@@ -565,6 +603,7 @@ jobs:
         style: flat # Which is Shields's default as well
         fail-on-error: true
         commit-and-push: true
+        query-delay: 15
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 

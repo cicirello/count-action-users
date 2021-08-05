@@ -32,6 +32,7 @@ import os
 import os.path
 import pathlib
 import subprocess
+import time
 
 queryTemplate = """search/code?q={0}+path%3A.github%2Fworkflows+language%3AYAML"""
 
@@ -82,7 +83,7 @@ def executeQuery(owner, actionName, failOnError) :
         print("::set-output name=exit-code::" + str(exitCode))
         exit(exitCode if failOnError else 0)
 
-def collectRepoCounts(actionList, failOnError) :
+def collectRepoCounts(actionList, failOnError, queryDelay) :
     """Executes all necessary queries to gather the user counts of
     all actions in the actionList. Returns a map from action name to
     associated count.
@@ -90,12 +91,15 @@ def collectRepoCounts(actionList, failOnError) :
     Keyword arguments:
     actionList - A list of actions to report usage on
     failOnError - Pass True to fail the workflow if an error occurs
+    queryDelay - A delay in seconds in between queries
     """
     countMap = {}
-    for action in actionList :
+    for i, action in enumerate(actionList) :
         owner, actionName = splitActionOwnerName(action)
         count = executeQuery(owner, actionName, failOnError)
         countMap[actionName] = formatCount(count)
+        if i+1 < len(actionList) :
+            time.sleep(queryDelay)
     return countMap
 
 def formatCount(count) :
@@ -235,9 +239,13 @@ if __name__ == "__main__" :
     if len(style) == 0 or style == "flat":
         style = None
 
+    queryDelay = int(sys.argv[9].strip())
+    if queryDelay < 10 :
+        queryDelay = 10
+
     exitCode = 0
     
-    countMap = collectRepoCounts(actionList, failOnError)
+    countMap = collectRepoCounts(actionList, failOnError, queryDelay)
     if len(targetDirectory) > 0 :
         if not os.path.exists(targetDirectory) :
             p = pathlib.Path(targetDirectory)
