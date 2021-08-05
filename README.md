@@ -14,8 +14,8 @@ Check out all of our GitHub Actions: https://actions.cicirello.org/
 [![GitHub top language](https://img.shields.io/github/languages/top/cicirello/count-action-users)](https://github.com/cicirello/count-action-users)
 
 The [cicirello/count-action-users](https://github.com/cicirello/count-action-users) GitHub Action 
-generates a [Shields endpoint](https://shields.io/endpoint) with the number of 
-users of a GitHub Action. It is thus a tool for
+generates a [Shields endpoint](https://shields.io/endpoint) with the count of the number of 
+workflows that use a GitHub Action. It is thus a tool for
 maintainers of GitHub Actions, and it can be used to insert a badge with a users count into the
 README for a GitHub Action. The key features include:
 * __Designed to Run on a Schedule__: The intended usage is to run the action on a 
