@@ -68,7 +68,7 @@ def executeQuery(owner, actionName, failOnError) :
     failOnError - Pass True to fail the workflow if an error occurs.
     """
     q = owner + "+" + actionName if len(owner) > 0 else actionName
-    result, exitCode = executeCommand(["gh", "api", queryTemplate.format(q)])
+    result, exitCode = executeCommand(["gh", "api", queryTemplate.format(q), "--cache", "1h"])
     if exitCode != 0 :
         print("Error: An error with code", exitCode, "occurred during GitHub API query.")
         print(result)
