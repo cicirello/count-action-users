@@ -343,7 +343,7 @@ release that you wish to use, such as with the following:
 
 ```yml
     - name: Generate user count JSON endpoint
-      uses: cicirello/count-action-users@v1.0.1
+      uses: cicirello/count-action-users@v1.0.2
       with:
         action-list: owner/action-name 
       env:

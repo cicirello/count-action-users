@@ -9,6 +9,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
   
 ### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
+
+## [1.0.2] - 2021-08-19
+
+### Fixed
 * Increased default `query-delay` to 65 seconds to minimize
   potential of hitting secondary rate limits for the use-case of
   monitoring multiple actions.
@@ -16,12 +27,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   potential of hitting secondary rate limits for the use-case of
   monitoring multiple actions.
 * Added cache directive to queries ("--cache 1h").
-
-### Deprecated
-
-### Removed
-
-### Fixed
 
 
 ## [1.0.1] - 2021-08-05
