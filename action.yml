@@ -63,7 +63,7 @@ inputs:
   query-delay:
     description: 'Time delay in seconds between queries if monitoring multiple actions'
     required: false
-    default: 15
+    default: 65
 outputs:
   exit-code:
     description: '0 if successful or non-zero if unsuccessful'	

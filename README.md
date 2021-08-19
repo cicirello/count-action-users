@@ -35,11 +35,11 @@ in most of our repositories._
 
 __Here are a Few Example Badges__
 * Example with moderate number of users: 
-  ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcicirello%2Fcount-action-users%2Fsamples%2Fendpoints%2Fjacoco-badge-generator.json)
+  ![Count of Action Users](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/cicirello/count-action-users/samples/endpoints/jacoco-badge-generator.json)
 * Example with very large number of users (`actions/setup-python`): 
-  ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcicirello%2Fcount-action-users%2Fsamples%2Fendpoints%2Fsetup-python.json)
+  ![Count of Action Users](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/cicirello/count-action-users/samples/endpoints/setup-python.json)
 * Example with huge number of users (`actions/checkout`): 
-  ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcicirello%2Fcount-action-users%2Fsamples%2Fendpoints%2Fcheckout.json)
+  ![Count of Action Users](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/cicirello/count-action-users/samples/endpoints/checkout.json)
 
 ## Table of Contents
 
@@ -93,16 +93,15 @@ jobs:
 
 You can then pass the URL of the endpoint to Shields to generate and
 insert a badge into your README with the following Markdown. Just be sure to
-replace `OWNERUSERID`, `REPOSITORY`, and `BRANCH` as appropriate, and also be sure
-to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
+replace `OWNERUSERID`, `REPOSITORY`, and `BRANCH` as appropriate.
 
 ```markdown
-![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FOWNERUSERID%2FREPOSITORY%2FBRANCH%2Faction-name.json)
+![Count of Action Users](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/OWNERUSERID/REPOSITORY/BRANCH/action-name.json)
 ```
 
 Note that in the above, you are relying on GitHub's `raw.githubusercontent.com`
 server for serving the endpoint to Shields. We do not actually recommend doing this
-as that server isn't really intended for that purpose, and may create a noticeable delay
+as that server isn't really intended for that purpose, and may create a delay
 that will trickle down to Shields serving the badge. However, you might initially
 set it up this way to try out the action. 
 See [Example 2](#example-2-serving-via-github-pages-from-the-docs-directory) 
@@ -207,11 +206,10 @@ then your endpoint will be accessible from
 `https://YOURUSERID.github.io/REPOSITORY/action-name.json`.
 
 You can then use the following Markdown to insert the badge in your README.
-Just be sure to replace `YOURUSERID` and `REPOSITORY` as appropriate, and also be sure
-to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
+Just be sure to replace `YOURUSERID` and `REPOSITORY` as appropriate.
 
 ```markdown
-![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Faction-name.json)
+![Count of Action Users](https://img.shields.io/endpoint?url=https://YOURUSERID.github.io/REPOSITORY/action-name.json)
 ```
 
 If you are also utilizing GitHub Pages for a project site, then you might want
@@ -221,7 +219,7 @@ accomplish that with the following action input: `target-directory: docs/endpoin
 This would change the necessary Markdown for inserting the badge to:
 
 ```markdown
-![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Fendpoints%2Faction-name.json)
+![Count of Action Users](https://img.shields.io/endpoint?url=https://YOURUSERID.github.io/REPOSITORY/endpoints/action-name.json)
 ```
 
 See [later in this document](#how-to-link-the-badge-to-search-results) for an 
@@ -278,11 +276,10 @@ As in the previous example, the JSON endpoint will be at
 the root of the project site 
 (`https://YOURUSERID.github.io/REPOSITORY/action-name.json`). Thus, you can then use the 
 following Markdown to insert the badge in your README.
-Just be sure to replace `YOURUSERID` and `REPOSITORY` as appropriate, and also be sure
-to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
+Just be sure to replace `YOURUSERID` and `REPOSITORY` as appropriate.
 
 ```markdown
-![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Faction-name.json)
+![Count of Action Users](https://img.shields.io/endpoint?url=https://YOURUSERID.github.io/REPOSITORY/action-name.json)
 ```
 
 If you'd rather have it in a subdirectory, you can set the appropriate action input,
@@ -290,7 +287,7 @@ such as with: `target-directory: endpoints`. Doing so would then require
 the following Markdown for inserting the badge into the README:  
 
 ```markdown
-![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2FYOURUSERID.github.io%2FREPOSITORY%2Fendpoints%2Faction-name.json)
+![Count of Action Users](https://img.shields.io/endpoint?url=https://YOURUSERID.github.io/REPOSITORY/endpoints/action-name.json)
 ```
 
 See [later in this document](#how-to-link-the-badge-to-search-results) for an 
@@ -346,7 +343,7 @@ release that you wish to use, such as with the following:
 
 ```yml
     - name: Generate user count JSON endpoint
-      uses: cicirello/count-action-users@v1.0.1
+      uses: cicirello/count-action-users@v1.0.2
       with:
         action-list: owner/action-name 
       env:
@@ -368,11 +365,10 @@ you might consider linking it to a GitHub search results page. You can do that
 with the following Markdown. Replace "YOURUSERID" with the user id of the owner
 of the action, and replace "ACTIONNAME" with the name of the action. Also replace
 "RELEVANT_SHIELDS_URL" with the link that generates the badge from the endpoint
-(see the examples in the workflow examples above). Also be sure
-to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
+(see the examples in the workflow examples above).
 
 ```markdown
-[![Count of Action Users](RELEVANT_SHIELDS_URL)](https://github.com/search?q=YOURUSERID+ACTIONNAME+path%3A.github%2Fworkflows+language%3AYAML&type=Code)
+[![Count of Action Users](RELEVANT_SHIELDS_URL)](https://github.com/search?q=YOURUSERID+ACTIONNAME+path:.github/workflows+language:YAML&type=Code)
 ```
 
 ## FAQ
@@ -380,13 +376,11 @@ to retain the various encodings of colons (`%3A`), and backslashes (`%2F`).
 __Why not instead submit a pull request to Shields to add direct support to their 
 awesome project for an actions users count badge?__ The GitHub Code Search API, which 
 we utilize for this action, has a rate limit of 30 queries per minute for an 
-authenticated user; and can also potentially interact with other secondary rate limits. 
+authenticated user; and can also potentially interact with other secondary rate limits,
+including some secondary limits that are not published. 
 By running this as an action, the necessary queries benefit 
-from the GITHUB_TOKEN of the user of this action, and in theory the rate limit should 
-never come into effect unless you attempt to run
-it to generate endpoints for many actions within a single workflow run, or are 
-otherwise querying the code search API (or other GitHub APIs) at the same time with 
-another tool, or run into a secondary rate limit. I imagine the rate
+from the GITHUB_TOKEN of the user of this action, and in theory we can more easily
+stay within the rate limits. I imagine the rate
 limit would be significantly more challenging for a solution directly integrated with 
 Shields. We additionally have a built-in time delay in between queries for those using
 the action to monitor multiple GitHub actions.
@@ -404,8 +398,9 @@ GitHub's [code search](https://docs.github.com/en/github/searching-for-informati
 for details of what code is (and is not) indexed by GitHub.
 
 __Can't we further minimize false positives with "owner/action-name" as a single search 
-term?__ Unfortunately, GitHub's code search drops various special characters from searches, 
-including `/`, replacing them with spaces. Due to this, combining owner and the 
+term?__ Unfortunately, GitHub's code search drops various special characters that are often
+used as wildcards from searches, including `/`, replacing them with 
+spaces. Due to this, combining owner and the 
 action's name into a single search 
 term in this way is equivalent to the search we are currently doing. 
 
@@ -551,9 +546,27 @@ The author of the commit is set to the github-actions bot.
 This input specifies a delay, in seconds, in between queries for 
 cases where multiple actions are being monitored. The purpose of this
 delay is to decrease chance of hitting API rate limits. The default is
-15 seconds. This input doesn't accept values less than 10. For example,
-if you attempt to pass 0 (or anything else less than 10), the minimum of
-10 will be used instead.
+65 seconds, which ensures that no more than one code search query is
+executed per minute. This input doesn't accept values less than 33. For example,
+if you attempt to pass 0 (or anything else less than 33), the minimum of
+33 will be used instead. That minimum ensures that at most two code search queries
+will be executed per minute.
+
+Why is the default, and minimum, query delays so high? Although the rate limit
+is 30 code search queries per minute, there are other unpublished secondary rate 
+limits. During our initial testing, we occasionally ran into such secondary limits
+when using a lower query delay that allowed for four queries in a 
+minute, specifically on the fourth query. It is unclear what other activity 
+was interacting to hit those secondary rate limits. The default, and minimum,
+query delays are designed to help you avoid rate limit effects.
+
+Additionally, there is no reason for the action to collect usage statistics
+of the actions that you maintain more than once per day, so the length of the delay 
+between queries shouldn't really matter much to you. The one case where it might is
+if you have reason to run this in a private repository, and thus the delay time
+will count against your actions minutes. In that case you can simply setup one workflow
+per action that you maintain (thus no delay will be inserted), and make sure
+you schedule them so that they are far enough apart in time.
 
 ## Outputs
 
@@ -603,7 +616,7 @@ jobs:
         style: flat # Which is Shields's default as well
         fail-on-error: true
         commit-and-push: true
-        query-delay: 15
+        query-delay: 65
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
