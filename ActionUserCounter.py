@@ -240,8 +240,8 @@ if __name__ == "__main__" :
         style = None
 
     queryDelay = int(sys.argv[9].strip())
-    if queryDelay < 10 :
-        queryDelay = 10
+    if queryDelay < 33 :
+        queryDelay = 33
 
     exitCode = 0
     
