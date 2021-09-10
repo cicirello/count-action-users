@@ -1,3 +1,4 @@
+
 # count-action-users
 
 [<img alt="count-action-users" src=".github/preview/count-action-users640.png" width="640">](#count-action-users)
@@ -647,3 +648,4 @@ You can support the project in a number of ways:
 This GitHub action is licensed under the [MIT License](LICENSE.md). If you contribute
 to the project, you agree that your contributions are likewise licensed through
 the MIT License. 
+
