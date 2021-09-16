@@ -642,4 +642,7 @@ You can support the project in a number of ways:
 
 ## License
 
-This GitHub Action is licensed under the [MIT License](LICENSE.md).
+This GitHub Action is licensed under the [MIT License](LICENSE.md). If you contribute
+to this project, then you agree that your contributions are likewise licensed under 
+the MIT License.
+
