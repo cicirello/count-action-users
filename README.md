@@ -404,3 +404,166 @@ spaces. Due to this, combining owner and the
 action's name into a single search 
 term in this way is equivalent to the search we are currently doing.
 
+## Inputs
+
+Most of the inputs have default values that should be sufficient in most
+cases. Only the `action-list` input is required.
+
+### `action-list` (REQUIRED)
+
+This input is required. All other inputs are optional.
+This input is a comma or space separated list of the GitHub Actions for
+which you want user count endpoints generated. We recommend that you 
+include both owner name and action name, rather than just the action name,
+to improve accuracy of results. For example, if I was running this
+for this very action, I would set this input as follows: 
+
+```yml
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: cicirello/count-action-users
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+The action will also work if you only use the action name (e.g., `action-list: count-action-users`), 
+but the results may be less accurate. Although GitHub requires each action to have a 
+unique name, if the name of your action is relatively simple, then there may be other
+action names that include your action's name within. By including the owner name
+of the action in the search, you can minimize some false positives in the results.
+
+If you maintain several GitHub Actions, then we recommend that you utilize
+a YAML multiline string when specifying this input to make your workflow 
+easy to read. For example:
+
+```yml
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: >
+          owner/action-one
+          owner/action-two
+          owner/action-three
+          owner/action-four
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+The `>` in the above is one of YAML's ways of specifying a multiline string.
+The action also doesn't care who the owners of the actions are, and will work if
+different actions have different owners, such as with the following:
+
+```yml
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: >
+          owner/action-one
+          anotherOwner/action-two
+          somebodyElse/action-three
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+The filename of each endpoint is of the form: `action-name.json`.
+
+### `target-directory`
+
+This is the directory, relative to the root of the repository in which
+the action is run, where the JSON endpoints will be stored. It defaults to
+the root of the repository. If the target directory doesn't exist, then the
+action will create it.
+
+### `color`
+
+This is the color for the right side of the badge (the side with the count
+of action users). The default is a shade of green. You can pass 3-digit hex
+(e.g., `color: '#333'`), 6-digit hex (e.g., `color: '#343434'`), or named
+colors (e.g., `blue`). Anything that is valid in CSS, SVG, etc is valid
+for this input. However, the action does not do any validation of the color that 
+you pass. Note that the quotes are required if you use hex because the `#` is 
+a special character to YAML.
+
+### `include-logo`
+
+This input controls whether or not a logo is inserted in the badge. The default is
+`true`.
+
+### `named-logo`
+
+This controls which logo is inserted if a logo is included in the badge. The default is
+`githubactions`, which is the GitHub Actions logo. Another to consider 
+is `github`, which is the GitHub logo. You can pass the name of any logo supported
+by [Shields](https://github.com/badges/shields), which also includes 
+[simple-icons](https://github.com/simple-icons/simple-icons). 
+
+### `style`
+
+This controls the style of the badge, and can be any style that is supported by 
+[Shields](https://github.com/badges/shields). The default is `flat`, which happens to
+also be the Shields default.
+
+### `fail-on-error`
+
+This input enables you to control what happens if the
+action fails for some reason (e.g., error communicating
+with the GitHub's Code Search API, etc). 
+
+The default is `fail-on-error: true`, which means that if
+an error occurs it will cause the workflow to fail. The rationale
+for this default is that the failed workflow will lead to a
+GitHub notification so that you know something went wrong.
+If you'd rather just let it quietly fail, to most likely correct
+itself during the next run, then pass `fail-on-error: false`
+(actually anything other than `true` will be treated as `false`).
+
+### `commit-and-push`
+
+The `commit-and-push` input controls whether the action commits
+and pushes the generated JSON endpoints upon creation. It defaults to
+`commit-and-push: true`. If the user count changed since
+last commit, then as long as you are not running this in a detached
+head state (such as on a pull request event), the action will commit
+and push the new endpoint. If you are in a detached head
+state, such as if you were to run this during a pull request 
+(not sure why you would), then the action will simply and quietly
+skip the commit/push without issuing an error. 
+
+If your branch is protected with either required reviews or required
+checks, then the push will fail with an error. Whether this also
+fails your workflow depends on how you have set 
+the `fail-on-error` input. See the earlier discussion for what you 
+can do if you wish to use the action in a repository 
+that has required reviews or required checks:
+[Protected branches with required checks](#protected-branches-with-required-checks).
+
+The author of the commit is set to the github-actions bot.
+
+### `query-delay`
+
+This input specifies a delay, in seconds, in between queries for 
+cases where multiple actions are being monitored. The purpose of this
+delay is to decrease chance of hitting API rate limits. The default is
+65 seconds, which ensures that no more than one code search query is
+executed per minute. This input doesn't accept values less than 33. For example,
+if you attempt to pass 0 (or anything else less than 33), the minimum of
+33 will be used instead. That minimum ensures that at most two code search queries
+will be executed per minute.
+
+Why is the default, and minimum, query delays so high? Although the rate limit
+is 30 code search queries per minute, there are other unpublished secondary rate 
+limits. During our initial testing, we occasionally ran into such secondary limits
+when using a lower query delay that allowed for four queries in a 
+minute, specifically on the fourth query. It is unclear what other activity 
+was interacting to hit those secondary rate limits. The default, and minimum,
+query delays are designed to help you avoid rate limit effects.
+
+Additionally, there is no reason for the action to collect usage statistics
+of the actions that you maintain more than once per day, so the length of the delay 
+between queries shouldn't really matter much to you. The one case where it might is
+if you have reason to run this in a private repository, and thus the delay time
+will count against your actions minutes. In that case you can simply setup one workflow
+per action that you maintain (thus no delay will be inserted), and make sure
+you schedule them so that they are far enough apart in time.
+
