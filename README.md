@@ -641,3 +641,5 @@ You can support the project in a number of ways:
 * __Sponsoring__: You can also consider [becoming a sponsor](https://github.com/sponsors/cicirello).
 
 ## License
+
+This GitHub Action is licensed under the [MIT License](LICENSE.md).
