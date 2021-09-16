@@ -582,3 +582,50 @@ However, the `exit-code` and a descriptive error message will still be
 logged in the workflow output. In either case, if you believe that the
 failure is a bug, please include this in any bug reports.
 
+## All Possible Action Inputs
+
+The workflow here shows all possible inputs, with their default
+values, and also shows how to access the action's `exit-code`
+output if desired.
+
+```yml
+name: count-action-users
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+      
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Generate user count JSON endpoint
+      id: endpointStep # Only needed if you want to check the exit-code
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: owner/action # This input is REQUIRED.
+        target-directory: '' # Default is root of repository.
+        color: '#4c1' # A bright shade of green
+        include-logo: true
+        named-logo: githubactions # Defaults to the GitHub Actions logo
+        style: flat # Which is Shields's default as well
+        fail-on-error: true
+        commit-and-push: true
+        query-delay: 65
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Check exit code if desired
+      run: |
+        # Note that if you set fail-on-error to true, you'll
+        # never actually get here if an error occurs. But if you
+        # set fail-on-error to false, then instead of failing the
+        # workflow, the action will output the exit code that would
+        # have failed the workflow and you can check it here.
+        echo "exitCode = ${{ steps.endpointStep.outputs.exit-code }}"
+```
+
