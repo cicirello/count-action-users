@@ -1,6 +1,6 @@
 # count-action-users
 
-<img src="https://actions.cicirello.org/images/count-action-users640.png" width="640">
+![](.github/preview/count-action-users640.png)
 
 Check out all of our GitHub Actions: https://actions.cicirello.org/
 
