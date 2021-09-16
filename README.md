@@ -1,5 +1,7 @@
 # count-action-users
 
+[![count-action-users](.github/preview/count-action-users640.png)](#count-action-users)
+
 Check out all of our GitHub Actions: https://actions.cicirello.org/
 
 ## About
@@ -400,8 +402,7 @@ term?__ Unfortunately, GitHub's code search drops various special characters tha
 used as wildcards from searches, including `/`, replacing them with 
 spaces. Due to this, combining owner and the 
 action's name into a single search 
-term in this way is equivalent to the search we are currently doing. 
-
+term in this way is equivalent to the search we are currently doing.
 
 ## Inputs
 
@@ -637,12 +638,8 @@ You can support the project in a number of ways:
 * __Reporting Issues__: If you find a bug or have a suggestion for a new feature, please 
   report it via the [Issue tracker](https://github.com/cicirello/count-action-users/issues).
 * __Contributing Code__: If there is an open issue that you think you can help with, submit a pull request.
-* __Sponsoring__: You can also consider 
-  [becoming a sponsor](https://github.com/sponsors/cicirello).
+* __Sponsoring__: You can also consider [becoming a sponsor](https://github.com/sponsors/cicirello).
 
 ## License
 
-This GitHub action is licensed under the [MIT License](LICENSE.md). If you contribute
-to the project, you agree that your contributions are likewise licensed through
-the MIT License. 
-
+This GitHub Action is licensed under the [MIT License](LICENSE.md).
