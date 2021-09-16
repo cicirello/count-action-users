@@ -41,3 +41,17 @@ __Here are a Few Example Badges__
 * Example with huge number of users (`actions/checkout`): 
   ![Count of Action Users](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fcicirello%2Fcount-action-users%2Fsamples%2Fendpoints%2Fcheckout.json)
 
+## Table of Contents
+
+The remainder of the documentation is organized as follows:
+* [Example Workflows](#example-workflows): Several example workflows illustrating 
+  usage of the action.
+* [FAQ](#faq): List of questions we anticipate you may have, or which have been asked.
+* [Inputs](#inputs): Documentation of the action's inputs.
+* [Outputs](#outputs): Documentation of the action's outputs.
+* [All Possible Action Inputs](#all-possible-action-inputs): A workflow showing all
+  of the action's inputs with their default values.
+* [Support the Project](#support-the-project): The various ways that you can support
+  the project.
+* [License](#license): License information (MIT License).
+
