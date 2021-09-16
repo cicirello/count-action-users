@@ -640,3 +640,7 @@ You can support the project in a number of ways:
 * __Contributing Code__: If there is an open issue that you think you can help with, submit a pull request.
 * __Sponsoring__: You can also consider [becoming a sponsor](https://github.com/sponsors/cicirello).
 
+## License
+
+This GitHub Action is licensed under the [MIT License](LICENSE.md). If you contribute to the project,
+you agree that your contributions are likewise licensed under the MIT license.
