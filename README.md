@@ -642,5 +642,4 @@ You can support the project in a number of ways:
 
 ## License
 
-This GitHub Action is licensed under the [MIT License](LICENSE.md). By contributing to this
-project, you agree that your contributions are also licensed under the MIT License.
+This GitHub Action is licensed under the [MIT License](LICENSE.md). Can I put anything here?
