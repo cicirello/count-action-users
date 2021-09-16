@@ -567,3 +567,18 @@ will count against your actions minutes. In that case you can simply setup one w
 per action that you maintain (thus no delay will be inserted), and make sure
 you schedule them so that they are far enough apart in time.
 
+## Outputs
+
+The action has only the following action output variable.
+
+### `exit-code`
+
+If the input `fail-on-error` is set to `false`, then in addition to
+quietly failing (i.e., not failing the workflow run), the output `exit-code`
+will be set to a non-zero exit code that may be useful in debugging the
+issue. If the input `fail-on-error` is set to `true` (the default), your
+workflow run won't have the opportunity to check the `exit-code` output.
+However, the `exit-code` and a descriptive error message will still be
+logged in the workflow output. In either case, if you believe that the
+failure is a bug, please include this in any bug reports.
+
