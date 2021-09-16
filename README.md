@@ -1,6 +1,6 @@
 # count-action-users
 
-![count-action-users](.github/preview/count-action-users640.png)
+![count-action-users](https://actions.cicirello.org/images/user-statistician640.png)
 
 Check out all of our GitHub Actions: https://actions.cicirello.org/
 
