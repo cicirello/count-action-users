@@ -371,3 +371,36 @@ of the action, and replace "ACTIONNAME" with the name of the action. Also replac
 [![Count of Action Users](RELEVANT_SHIELDS_URL)](https://github.com/search?q=YOURUSERID+ACTIONNAME+path:.github/workflows+language:YAML&type=Code)
 ```
 
+## FAQ
+
+__Why not instead submit a pull request to Shields to add direct support to their 
+awesome project for an actions users count badge?__ The GitHub Code Search API, which 
+we utilize for this action, has a rate limit of 30 queries per minute for an 
+authenticated user; and can also potentially interact with other secondary rate limits,
+including some secondary limits that are not published. 
+By running this as an action, the necessary queries benefit 
+from the GITHUB_TOKEN of the user of this action, and in theory we can more easily
+stay within the rate limits. I imagine the rate
+limit would be significantly more challenging for a solution directly integrated with 
+Shields. We additionally have a built-in time delay in between queries for those using
+the action to monitor multiple GitHub actions.
+
+__How does `count-action-users` work?__ The `count-action-users` action queries GitHub's
+Code Search API. The search is restricted to the contents of files in the `.github/workflows`
+directory (since active workflows must be in that directory to run) and restricted to 
+the YAML language (the language for workflows). The search terms then include
+the owner of the action and the name of the action. It is possible that some false positives
+may be included in the count. For example, although GitHub requires actions in the marketplace to
+have unique names, if an action has a simple enough name, that name may be found within that
+of another action with a longer name. Including the owner name in the search should
+minimize false positives. See the documentation of 
+GitHub's [code search](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-code)
+for details of what code is (and is not) indexed by GitHub.
+
+__Can't we further minimize false positives with "owner/action-name" as a single search 
+term?__ Unfortunately, GitHub's code search drops various special characters that are often
+used as wildcards from searches, including `/`, replacing them with 
+spaces. Due to this, combining owner and the 
+action's name into a single search 
+term in this way is equivalent to the search we are currently doing.
+
