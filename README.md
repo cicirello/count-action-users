@@ -371,3 +371,279 @@ of the action, and replace "ACTIONNAME" with the name of the action. Also replac
 [![Count of Action Users](RELEVANT_SHIELDS_URL)](https://github.com/search?q=YOURUSERID+ACTIONNAME+path:.github/workflows+language:YAML&type=Code)
 ```
 
+## FAQ
+
+__Why not instead submit a pull request to Shields to add direct support to their 
+awesome project for an actions users count badge?__ The GitHub Code Search API, which 
+we utilize for this action, has a rate limit of 30 queries per minute for an 
+authenticated user; and can also potentially interact with other secondary rate limits,
+including some secondary limits that are not published. 
+By running this as an action, the necessary queries benefit 
+from the GITHUB_TOKEN of the user of this action, and in theory we can more easily
+stay within the rate limits. I imagine the rate
+limit would be significantly more challenging for a solution directly integrated with 
+Shields. We additionally have a built-in time delay in between queries for those using
+the action to monitor multiple GitHub actions.
+
+__How does `count-action-users` work?__ The `count-action-users` action queries GitHub's
+Code Search API. The search is restricted to the contents of files in the `.github/workflows`
+directory (since active workflows must be in that directory to run) and restricted to 
+the YAML language (the language for workflows). The search terms then include
+the owner of the action and the name of the action. It is possible that some false positives
+may be included in the count. For example, although GitHub requires actions in the marketplace to
+have unique names, if an action has a simple enough name, that name may be found within that
+of another action with a longer name. Including the owner name in the search should
+minimize false positives. See the documentation of 
+GitHub's [code search](https://docs.github.com/en/github/searching-for-information-on-github/searching-on-github/searching-code)
+for details of what code is (and is not) indexed by GitHub.
+
+__Can't we further minimize false positives with "owner/action-name" as a single search 
+term?__ Unfortunately, GitHub's code search drops various special characters that are often
+used as wildcards from searches, including `/`, replacing them with 
+spaces. Due to this, combining owner and the 
+action's name into a single search 
+term in this way is equivalent to the search we are currently doing. 
+
+
+## Inputs
+
+Most of the inputs have default values that should be sufficient in most
+cases. Only the `action-list` input is required.
+
+### `action-list` (REQUIRED)
+
+This input is required. All other inputs are optional.
+This input is a comma or space separated list of the GitHub Actions for
+which you want user count endpoints generated. We recommend that you 
+include both owner name and action name, rather than just the action name,
+to improve accuracy of results. For example, if I was running this
+for this very action, I would set this input as follows: 
+
+```yml
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: cicirello/count-action-users
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+The action will also work if you only use the action name (e.g., `action-list: count-action-users`), 
+but the results may be less accurate. Although GitHub requires each action to have a 
+unique name, if the name of your action is relatively simple, then there may be other
+action names that include your action's name within. By including the owner name
+of the action in the search, you can minimize some false positives in the results.
+
+If you maintain several GitHub Actions, then we recommend that you utilize
+a YAML multiline string when specifying this input to make your workflow 
+easy to read. For example:
+
+```yml
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: >
+          owner/action-one
+          owner/action-two
+          owner/action-three
+          owner/action-four
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+The `>` in the above is one of YAML's ways of specifying a multiline string.
+The action also doesn't care who the owners of the actions are, and will work if
+different actions have different owners, such as with the following:
+
+```yml
+    - name: Generate user count JSON endpoint
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: >
+          owner/action-one
+          anotherOwner/action-two
+          somebodyElse/action-three
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+```
+
+The filename of each endpoint is of the form: `action-name.json`.
+
+### `target-directory`
+
+This is the directory, relative to the root of the repository in which
+the action is run, where the JSON endpoints will be stored. It defaults to
+the root of the repository. If the target directory doesn't exist, then the
+action will create it.
+
+### `color`
+
+This is the color for the right side of the badge (the side with the count
+of action users). The default is a shade of green. You can pass 3-digit hex
+(e.g., `color: '#333'`), 6-digit hex (e.g., `color: '#343434'`), or named
+colors (e.g., `blue`). Anything that is valid in CSS, SVG, etc is valid
+for this input. However, the action does not do any validation of the color that 
+you pass. Note that the quotes are required if you use hex because the `#` is 
+a special character to YAML.
+
+### `include-logo`
+
+This input controls whether or not a logo is inserted in the badge. The default is
+`true`.
+
+### `named-logo`
+
+This controls which logo is inserted if a logo is included in the badge. The default is
+`githubactions`, which is the GitHub Actions logo. Another to consider 
+is `github`, which is the GitHub logo. You can pass the name of any logo supported
+by [Shields](https://github.com/badges/shields), which also includes 
+[simple-icons](https://github.com/simple-icons/simple-icons). 
+
+### `style`
+
+This controls the style of the badge, and can be any style that is supported by 
+[Shields](https://github.com/badges/shields). The default is `flat`, which happens to
+also be the Shields default.
+
+### `fail-on-error`
+
+This input enables you to control what happens if the
+action fails for some reason (e.g., error communicating
+with the GitHub's Code Search API, etc). 
+
+The default is `fail-on-error: true`, which means that if
+an error occurs it will cause the workflow to fail. The rationale
+for this default is that the failed workflow will lead to a
+GitHub notification so that you know something went wrong.
+If you'd rather just let it quietly fail, to most likely correct
+itself during the next run, then pass `fail-on-error: false`
+(actually anything other than `true` will be treated as `false`).
+
+### `commit-and-push`
+
+The `commit-and-push` input controls whether the action commits
+and pushes the generated JSON endpoints upon creation. It defaults to
+`commit-and-push: true`. If the user count changed since
+last commit, then as long as you are not running this in a detached
+head state (such as on a pull request event), the action will commit
+and push the new endpoint. If you are in a detached head
+state, such as if you were to run this during a pull request 
+(not sure why you would), then the action will simply and quietly
+skip the commit/push without issuing an error. 
+
+If your branch is protected with either required reviews or required
+checks, then the push will fail with an error. Whether this also
+fails your workflow depends on how you have set 
+the `fail-on-error` input. See the earlier discussion for what you 
+can do if you wish to use the action in a repository 
+that has required reviews or required checks:
+[Protected branches with required checks](#protected-branches-with-required-checks).
+
+The author of the commit is set to the github-actions bot.
+
+### `query-delay`
+
+This input specifies a delay, in seconds, in between queries for 
+cases where multiple actions are being monitored. The purpose of this
+delay is to decrease chance of hitting API rate limits. The default is
+65 seconds, which ensures that no more than one code search query is
+executed per minute. This input doesn't accept values less than 33. For example,
+if you attempt to pass 0 (or anything else less than 33), the minimum of
+33 will be used instead. That minimum ensures that at most two code search queries
+will be executed per minute.
+
+Why is the default, and minimum, query delays so high? Although the rate limit
+is 30 code search queries per minute, there are other unpublished secondary rate 
+limits. During our initial testing, we occasionally ran into such secondary limits
+when using a lower query delay that allowed for four queries in a 
+minute, specifically on the fourth query. It is unclear what other activity 
+was interacting to hit those secondary rate limits. The default, and minimum,
+query delays are designed to help you avoid rate limit effects.
+
+Additionally, there is no reason for the action to collect usage statistics
+of the actions that you maintain more than once per day, so the length of the delay 
+between queries shouldn't really matter much to you. The one case where it might is
+if you have reason to run this in a private repository, and thus the delay time
+will count against your actions minutes. In that case you can simply setup one workflow
+per action that you maintain (thus no delay will be inserted), and make sure
+you schedule them so that they are far enough apart in time.
+
+## Outputs
+
+The action has only the following action output variable.
+
+### `exit-code`
+
+If the input `fail-on-error` is set to `false`, then in addition to
+quietly failing (i.e., not failing the workflow run), the output `exit-code`
+will be set to a non-zero exit code that may be useful in debugging the
+issue. If the input `fail-on-error` is set to `true` (the default), your
+workflow run won't have the opportunity to check the `exit-code` output.
+However, the `exit-code` and a descriptive error message will still be
+logged in the workflow output. In either case, if you believe that the
+failure is a bug, please include this in any bug reports.
+
+## All Possible Action Inputs
+
+The workflow here shows all possible inputs, with their default
+values, and also shows how to access the action's `exit-code`
+output if desired.
+
+```yml
+name: count-action-users
+
+on:
+  schedule:
+    - cron: '0 4 * * *'
+  workflow_dispatch:
+
+jobs:
+  count:
+    runs-on: ubuntu-latest
+      
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Generate user count JSON endpoint
+      id: endpointStep # Only needed if you want to check the exit-code
+      uses: cicirello/count-action-users@v1
+      with:
+        action-list: owner/action # This input is REQUIRED.
+        target-directory: '' # Default is root of repository.
+        color: '#4c1' # A bright shade of green
+        include-logo: true
+        named-logo: githubactions # Defaults to the GitHub Actions logo
+        style: flat # Which is Shields's default as well
+        fail-on-error: true
+        commit-and-push: true
+        query-delay: 65
+      env:
+        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+
+    - name: Check exit code if desired
+      run: |
+        # Note that if you set fail-on-error to true, you'll
+        # never actually get here if an error occurs. But if you
+        # set fail-on-error to false, then instead of failing the
+        # workflow, the action will output the exit code that would
+        # have failed the workflow and you can check it here.
+        echo "exitCode = ${{ steps.endpointStep.outputs.exit-code }}"
+```
+
+## Support the Project
+
+You can support the project in a number of ways:
+* __Starring__: If you find the `count-action-users` action useful, consider starring the
+  repository.
+* __Sharing with Others__: Consider sharing it with others who you feel might find it useful.
+* __Reporting Issues__: If you find a bug or have a suggestion for a new feature, please 
+  report it via the [Issue tracker](https://github.com/cicirello/count-action-users/issues).
+* __Contributing Code__: If there is an open issue that you think you can help with, submit a pull request.
+* __Sponsoring__: You can also consider 
+  [becoming a sponsor](https://github.com/sponsors/cicirello).
+
+## License
+
+This GitHub action is licensed under the [MIT License](LICENSE.md). If you contribute
+to the project, you agree that your contributions are likewise licensed through
+the MIT License.
