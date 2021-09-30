@@ -225,7 +225,7 @@ if __name__ == "__main__" :
     
     color = sys.argv[5].strip()
     if len(color) == 0 :
-        color = '#4c1'
+        color = '#007ec6'
     
     includeLogo = sys.argv[6].strip().lower() == "true"
     

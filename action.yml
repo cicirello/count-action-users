@@ -47,7 +47,7 @@ inputs:
   color:
     description: 'The color for the right side of the badge'
     required: false
-    default: '#4c1' # A bright shade of green
+    default: '#007ec6' # The shade of blue used by Shields for informational badges
   include-logo:
     description: 'If true will include a named logo on the left'
     required: false
