@@ -57,7 +57,7 @@ class TestIntegration(unittest.TestCase) :
             except ValueError:
                 self.fail("count not an int")
             #self.assertTrue(messageParts[1].startswith("repo"))
-            self.assertEqual("#4c1", d["color"])
+            self.assertEqual("#007ec6", d["color"])
             self.assertEqual("githubactions", d["namedLogo"])
             self.assertFalse("style" in d)
 

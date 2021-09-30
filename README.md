@@ -478,7 +478,8 @@ action will create it.
 ### `color`
 
 This is the color for the right side of the badge (the side with the count
-of action users). The default is a shade of green. You can pass 3-digit hex
+of action users). The default is the shade of blue that is currently
+used by Shields to designate that the badge is "informational". You can pass 3-digit hex
 (e.g., `color: '#333'`), 6-digit hex (e.g., `color: '#343434'`), or named
 colors (e.g., `blue`). Anything that is valid in CSS, SVG, etc is valid
 for this input. However, the action does not do any validation of the color that 
@@ -609,7 +610,7 @@ jobs:
       with:
         action-list: owner/action # This input is REQUIRED.
         target-directory: '' # Default is root of repository.
-        color: '#4c1' # A bright shade of green
+        color: '#007ec6' # The shade of blue used by Shields for informational badges
         include-logo: true
         named-logo: githubactions # Defaults to the GitHub Actions logo
         style: flat # Which is Shields's default as well
