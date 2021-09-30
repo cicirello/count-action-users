@@ -17,6 +17,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 
+## [1.0.3] - 2021-09-30
+
+### Fixed
+* Changed the default badge color to the shade of blue that is commonly used
+  by Shields' badges for those badges that are informational. Our previous use
+  of green was inconsistent with the common use of green for a passing status.
+  Badges with counts of users is not a status that can be passed or failed. It
+  is strictly informational, and potentially useful to maintainers of actions
+  to know size of user-base and thus scale of the effects of potential changes.
+  Users can still override the color to any that they desire with the color input.
+
+
 ## [1.0.2] - 2021-08-19
 
 ### Fixed
