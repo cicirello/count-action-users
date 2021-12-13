@@ -76,7 +76,14 @@ def executeQuery(owner, actionName, failOnError) :
         exit(exitCode if failOnError else 0)
     result = json.loads(result)
     if "total_count" in result :
-        return result["total_count"]
+        count = result["total_count"]
+        if count == 0 :
+            print("WARNING: Code query returned 0 results for action:", actionName)
+            print("Query result:")
+            print(result)
+            print("If you think this is a bug in the count-action-users action,")
+            print("please include the above in your issue report.")
+        return count
     else :
         print("Error: total_count missing from GitHub API query result")
         exitCode = 1
@@ -97,7 +104,8 @@ def collectRepoCounts(actionList, failOnError, queryDelay) :
     for i, action in enumerate(actionList) :
         owner, actionName = splitActionOwnerName(action)
         count = executeQuery(owner, actionName, failOnError)
-        countMap[actionName] = formatCount(count)
+        if count > 0 :
+            countMap[actionName] = formatCount(count)
         if i+1 < len(actionList) :
             time.sleep(queryDelay)
     return countMap
