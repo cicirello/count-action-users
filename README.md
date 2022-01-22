@@ -138,7 +138,7 @@ jobs:
         action-list: >
           owner/action-one
           owner/action-two
-          owner/action-three		  
+          owner/action-three  
       env:
         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 ```
