@@ -2,7 +2,7 @@
 # https://www.cicirello.org/
 # Licensed under the MIT License.
 
-FROM ghcr.io/cicirello/pyaction:4.1.0
+FROM ghcr.io/cicirello/pyaction:4.2.0
 
 COPY ActionUserCounter.py /ActionUserCounter.py
 ENTRYPOINT ["/ActionUserCounter.py"]
