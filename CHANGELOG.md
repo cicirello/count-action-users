@@ -9,14 +9,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
   
 ### Changed
-* Bumped python to 3.10.
-* Bumped base Docker image from pyaction:4.0.0 to pyaction:4.2.0.
 
 ### Deprecated
 
 ### Removed
 
 ### Fixed
+
+
+## [1.0.5] - 2022-03-04
+
+### Changed
+* Bumped python to 3.10.
+* Bumped base Docker image from pyaction:4.0.0 to pyaction:4.2.0.
 
 
 ## [1.0.4] - 2021-12-13
