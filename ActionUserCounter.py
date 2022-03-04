@@ -1,8 +1,8 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S python3 -B
 #
 # count-action-users: Generates Shields endpoint with number of users of a GitHub Action
 # 
-# Copyright (c) 2021 Vincent A Cicirello
+# Copyright (c) 2021-2022 Vincent A Cicirello
 # https://www.cicirello.org/
 #
 # MIT License
