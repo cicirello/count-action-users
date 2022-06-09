@@ -643,4 +643,4 @@ You can support the project in a number of ways:
 
 ## License
 
-This GitHub Action is licensed under the [MIT License](LICENSE.md).
+This GitHub Action is licensed under the [MIT License](https://github.com/cicirello/count-action-users/blob/main/LICENSE).
