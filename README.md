@@ -6,12 +6,11 @@ Check out all of our GitHub Actions: https://actions.cicirello.org/
 
 ## About
 
-[![GitHub release (latest by date)](https://img.shields.io/github/v/release/cicirello/count-action-users?label=Marketplace&logo=GitHub)](https://github.com/marketplace/actions/count-action-users)
-[![build](https://github.com/cicirello/count-action-users/actions/workflows/build.yml/badge.svg)](https://github.com/cicirello/count-action-users/actions/workflows/build.yml)
-[![samples](https://github.com/cicirello/count-action-users/actions/workflows/generate-samples.yml/badge.svg)](https://github.com/cicirello/count-action-users/actions/workflows/generate-samples.yml)
-[![CodeQL](https://github.com/cicirello/count-action-users/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cicirello/count-action-users/actions/workflows/codeql-analysis.yml)
-[![License](https://img.shields.io/github/license/cicirello/count-action-users)](https://github.com/cicirello/count-action-users/blob/main/LICENSE)
-[![GitHub top language](https://img.shields.io/github/languages/top/cicirello/count-action-users)](https://github.com/cicirello/count-action-users)
+| __GitHub Actions__ | [![GitHub release (latest by date)](https://img.shields.io/github/v/release/cicirello/count-action-users?label=Marketplace&logo=GitHub)](https://github.com/marketplace/actions/count-action-users) |
+| :--- | :--- |
+| __Build Status__ | [![build](https://github.com/cicirello/count-action-users/actions/workflows/build.yml/badge.svg)](https://github.com/cicirello/count-action-users/actions/workflows/build.yml) [![samples](https://github.com/cicirello/count-action-users/actions/workflows/generate-samples.yml/badge.svg)](https://github.com/cicirello/count-action-users/actions/workflows/generate-samples.yml) [![CodeQL](https://github.com/cicirello/count-action-users/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/cicirello/count-action-users/actions/workflows/codeql-analysis.yml) |
+| __Source Info__ | [![License](https://img.shields.io/github/license/cicirello/count-action-users)](https://github.com/cicirello/count-action-users/blob/main/LICENSE) [![GitHub top language](https://img.shields.io/github/languages/top/cicirello/count-action-users)](https://github.com/cicirello/count-action-users) |
+| __Support__ | [![GitHub Sponsors](https://img.shields.io/badge/sponsor-30363D?logo=GitHub-Sponsors&logoColor=#EA4AAA)](https://github.com/sponsors/cicirello) [![Liberapay](https://img.shields.io/badge/Liberapay-F6C915?logo=liberapay&logoColor=black)](https://liberapay.com/cicirello) [![Ko-Fi](https://img.shields.io/badge/Ko--fi-F16061?logo=ko-fi&logoColor=white)](https://ko-fi.com/cicirello) |
 
 The [cicirello/count-action-users](https://github.com/cicirello/count-action-users) GitHub Action 
 generates a [Shields endpoint](https://shields.io/endpoint) with the count of the number of 
