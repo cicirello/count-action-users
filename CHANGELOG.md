@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 2022-10-05
+## [Unreleased] - 2022-10-20
 
 ### Added
   
@@ -15,10 +15,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 
 ### Fixed
-* Disabled pycache to protect against potential future bug. Currently
-  no imports so no pycache created, but if future versions import
-  local py modules, a pycache would be created during run in repo. Disabled
-  creation of pycache now to avoid.
+
+### Dependencies
+
+
+## [1.0.6] - 2022-10-20
+
+### Fixed
+* Replaced the usage of GitHub Action's deprecated `set-output` workflow command with the new `$GITHUB_OUTPUT`
+  environment file.
+* Disabled pycache to protect against potential future bug. Currently no imports so no pycache created, but if future 
+  versions import local py modules, a pycache would be created during run in repo. Disabled creation of pycache now to avoid.
 
 ### Dependencies
 * Bump cicirello/pyaction from 4.2.0 to 4.10.0, including upgrading Python within the Docker container to 3.10.7

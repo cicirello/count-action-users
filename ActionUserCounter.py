@@ -72,7 +72,7 @@ def executeQuery(owner, actionName, failOnError) :
     if exitCode != 0 :
         print("Error: An error with code", exitCode, "occurred during GitHub API query.")
         print(result)
-        print("::set-output name=exit-code::" + str(exitCode))
+        set_output("exit-code", exitCode)
         exit(exitCode if failOnError else 0)
     result = json.loads(result)
     if "total_count" in result :
@@ -87,7 +87,7 @@ def executeQuery(owner, actionName, failOnError) :
     else :
         print("Error: total_count missing from GitHub API query result")
         exitCode = 1
-        print("::set-output name=exit-code::" + str(exitCode))
+        set_output("exit-code", exitCode)
         exit(exitCode if failOnError else 0)
 
 def collectRepoCounts(actionList, failOnError, queryDelay) :
@@ -183,7 +183,7 @@ def writeToFiles(endpointMap, failOnError) :
         except:
             print("Error: Failed while writing:", filename)
             exitCode = 2
-            print("::set-output name=exit-code::" + str(exitCode))
+            set_output("exit-code", exitCode)
             exit(exitCode if failOnError else 0)
     return allFilenames
 
@@ -219,9 +219,19 @@ def commitAndPush(allFilenames, name, login, failOnError) :
             if r[1] != 0 :
                 print("Error: push failed.")
                 exitCode = 3
-                print("::set-output name=exit-code::" + str(exitCode))
+                set_output("exit-code", exitCode)
                 exit(exitCode if failOnError else 0)
 
+def set_output(name, value) :
+    """Sets an action output.
+
+    Keyword arguments:
+    name - The output name
+    value - The output value
+    """
+    with open(os.environ["GITHUB_OUTPUT"], "a") as f :
+        print("{0}={1}".format(name, value), file=f)
+    
 if __name__ == "__main__" :
     actionList = sys.argv[1].strip().replace(",", " ").split()
 
@@ -269,5 +279,5 @@ if __name__ == "__main__" :
     if commit and len(allFilenames) > 0 :
         commitAndPush(allFilenames, "github-actions", "41898282+github-actions[bot]", failOnError)
     
-    print("::set-output name=exit-code::" + str(exitCode))
+    set_output("exit-code", exitCode)
     
