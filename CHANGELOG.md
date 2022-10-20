@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Dependencies
+* Bump cicirello/pyaction from 4.10.0 to 4.11.0
 
 
 ## [1.0.6] - 2022-10-20
