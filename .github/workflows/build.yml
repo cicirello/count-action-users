@@ -33,7 +33,6 @@ jobs:
       with:
         action-list: >
           cicirello/jacoco-badge-generator
-          aFakeActionForTestingThatCannotPossiblyActuallyExistShouldHaveCountOfZero
         target-directory: tests/endpoints
         commit-and-push: false
       env:
