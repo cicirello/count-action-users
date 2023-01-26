@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased] - 2023-01-05
+## [Unreleased] - 2023-01-26
 
 ### Added
   
@@ -17,7 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 ### Dependencies
-* Bump cicirello/pyaction from 4.10.0 to 4.14.1, including bumping Python inside the Docker container to 3.11.
+* Bump cicirello/pyaction from 4.10.0 to 4.15.0, including bumping Python inside the Docker container to 3.11.
 
 
 ## [1.0.6] - 2022-10-20
