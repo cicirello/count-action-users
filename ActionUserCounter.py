@@ -33,6 +33,7 @@ import os.path
 import pathlib
 import subprocess
 import time
+import unicodedata
 
 queryTemplate = """search/code?q={0}+path%3A.github%2Fworkflows+language%3AYAML"""
 
@@ -231,6 +232,20 @@ def set_output(name, value) :
     """
     with open(os.environ["GITHUB_OUTPUT"], "a") as f :
         print("{0}={1}".format(name, value), file=f)
+
+def sanitize(targetDirectory) :
+    """Sanitizes target directory name.
+
+    Keyword arguments:
+    targetDirectory - the target directory
+    """
+    targetDirectory = unicodedata.normalize("NFKD", targetDirectory)
+    targetDirectory = targetDirectory.encode("ascii", "ignore").decode("ascii").strip()
+    targetDirectory = targetDirectory.replace("../", "").strip()
+    targetDirectory = targetDirectory.replace("./", "").strip()
+    targetDirectory = "_".join(targetDirectory.split())
+    targetDirectory = targetDirectory.lstrip("/")
+    return targetDirectory
     
 if __name__ == "__main__" :
     actionList = sys.argv[1].strip().replace(",", " ").split()
@@ -266,15 +281,13 @@ if __name__ == "__main__" :
     countMap = collectRepoCounts(actionList, failOnError, queryDelay)
     if len(targetDirectory) > 0 :
         repoRoot = "/github/workspace"
-        targetDirectory = os.path.realpath(targetDirectory)
-        prefix = os.path.commonpath([repoRoot, targetDirectory])
-        if prefix == repoRoot :
-            targetDirectory = os.path.join(repoRoot, targetDirectory)
-            if not os.path.exists(targetDirectory) :
-                p = pathlib.Path(targetDirectory)
-                os.umask(0)
-                p.mkdir(mode=0o777, parents=True, exist_ok=True)
-            os.chdir(targetDirectory)
+        targetDirectory = sanitize(targetDirectory)
+        targetDirectory = os.path.join(repoRoot, targetDirectory)
+        if not os.path.exists(targetDirectory) :
+            p = pathlib.Path(targetDirectory)
+            os.umask(0)
+            p.mkdir(mode=0o777, parents=True, exist_ok=True)
+        os.chdir(targetDirectory)
 
     allFilenames = writeToFiles(
         toJsonEndpoints(countMap, color, logoName, style),
