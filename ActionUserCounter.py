@@ -2,7 +2,7 @@
 #
 # count-action-users: Generates Shields endpoint with number of users of a GitHub Action
 # 
-# Copyright (c) 2021-2022 Vincent A Cicirello
+# Copyright (c) 2021-2023 Vincent A Cicirello
 # https://www.cicirello.org/
 #
 # MIT License
@@ -265,11 +265,16 @@ if __name__ == "__main__" :
     
     countMap = collectRepoCounts(actionList, failOnError, queryDelay)
     if len(targetDirectory) > 0 :
-        if not os.path.exists(targetDirectory) :
-            p = pathlib.Path(targetDirectory)
-            os.umask(0)
-            p.mkdir(mode=0o777, parents=True, exist_ok=True)
-        os.chdir(targetDirectory)
+        repoRoot = "/github/workspace"
+        targetDirectory = os.path.realpath(targetDirectory)
+        prefix = os.path.commonpath([repoRoot, targetDirectory])
+        if prefix == repoRoot :
+            targetDirectory = os.path.join(repoRoot, targetDirectory)
+            if not os.path.exists(targetDirectory) :
+                p = pathlib.Path(targetDirectory)
+                os.umask(0)
+                p.mkdir(mode=0o777, parents=True, exist_ok=True)
+            os.chdir(targetDirectory)
 
     allFilenames = writeToFiles(
         toJsonEndpoints(countMap, color, logoName, style),
