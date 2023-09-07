@@ -277,6 +277,10 @@ if __name__ == "__main__" :
         queryDelay = 33
 
     exitCode = 0
+
+    # Resolve issue related to user in Docker container vs owner of repository
+    executeCommand(
+        ["git", "config", "--global", "--add", "safe.directory", "/github/workspace"])
     
     countMap = collectRepoCounts(actionList, failOnError, queryDelay)
     if len(targetDirectory) > 0 :
