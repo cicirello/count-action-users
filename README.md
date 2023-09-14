@@ -50,6 +50,7 @@ The remainder of the documentation is organized as follows:
 * [Outputs](#outputs): Documentation of the action's outputs.
 * [All Possible Action Inputs](#all-possible-action-inputs): A workflow showing all
   of the action's inputs with their default values.
+* [Built With](#built-with): A list of the tools, etc used to develop this action.
 * [Support the Project](#support-the-project): The various ways that you can support
   the project.
 * [License](#license): License information (MIT License).
@@ -629,6 +630,17 @@ jobs:
         echo "exitCode = ${{ steps.endpointStep.outputs.exit-code }}"
 ```
 
+## Built With
+
+The `count-action-users` action uses the following:
+* Python (implemented almost entirely in Python);
+* The [cicirello/pyaction](https://actions.cicirello.org/pyaction/) Docker container, which 
+  is designed to support GitHub Actions development in the Python language (see
+  [pyaction's GitHub repository](https://github.com/cicirello/pyaction)); 
+* [The GitHub CLI](https://cli.github.com/); and
+* We started with our template repository for GitHub Actions implemented in 
+  Python: [cicirello/python-github-action-template](https://github.com/cicirello/python-github-action-template).
+  
 ## Support the Project
 
 You can support the project in a number of ways:
