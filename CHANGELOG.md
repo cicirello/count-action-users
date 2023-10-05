@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 * Bump Python to 3.12 in CI/CD workflows when running unit tests.
 
 ### Dependencies
-* Bump cicirello/pyaction from 4.10.0 to 4.24.0, including bumping Python inside the Docker container to 3.11.
+* Bump cicirello/pyaction from 4.10.0 to 4.25.0, including upgrading Python within the Docker container to 3.12.
 
 
 ## [1.0.6] - 2022-10-20
