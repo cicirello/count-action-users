@@ -35,7 +35,7 @@ import subprocess
 import time
 import unicodedata
 
-queryTemplate = """search?q={0}+path%3A.github%2Fworkflows+language%3AYAML"""
+queryTemplate = """search?q={0}+path%3A.github%2Fworkflows+language%3AYAML&type=code"""
 
 def splitActionOwnerName(action) :
     """Takes the name of an action that may include both owner and action
