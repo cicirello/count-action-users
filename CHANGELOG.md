@@ -19,8 +19,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### CI/CD
 
 ### Dependencies
+
+
+## [1.0.8] - 2025-07-15
+
+### Dependencies
 * Switch to the new tag scheme of cicirello/pyaction
-* Bump cicirello/pyaction to 3.13.5-gh-2.75.1
+* Bump cicirello/pyaction to 3.13.5-gh-2.75.1 (which includes upgrading Python in the Docker container to 3.13).
 
 
 ## [1.0.7] - 2023-10-05
